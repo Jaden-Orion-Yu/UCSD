@@ -1,0 +1,77 @@
+clear all;
+close all; clc;
+format long;
+name = 'Jaden McDonald Peltier Yu';
+id = 'A15960227';
+hw_num = 'midterm';
+form = 'D';
+
+
+%% problem 1 
+timeAndDate = clock;
+p1a = sprintf('At %d:%2d:%5.2f on %2d:%2d:%2d that I will not give or receive any unauthorized help on this exam, and that all the work will be my own',timeAndDate(4),timeAndDate(5),timeAndDate(6), timeAndDate(2),timeAndDate(3),timeAndDate(1));
+
+
+%% problem 2
+n = 1:80;
+p2a = n;
+p2b = (2.^(n + 3)).*(n + 3);
+p2c = find(p2b == min(p2b(p2b > 10^20)));
+
+
+%% problem 3
+matA = 1:256; matA = abs(ceil(200*cos(matA/20)));matA = reshape(matA,16,16);
+p3a = matA(10,:);
+p3b = diag(matA);
+p3c = matA(:,[2,5,10]);
+p3d = any(mod(matA(:),17) == 0);
+p3e = matA;
+p3e(p3e == max(p3e(:))) = max(p3e(:)) + 5;
+
+%% problem 4
+x = -7000:25:7000;
+f = sin((x + 360)./360).*exp(-((x./3600).^2));
+p4a = x;
+p4b = f;
+dfdx = diff(f)./diff(x);
+p4c = x(find(dfdx == max(dfdx)));
+p4d = sum(sqrt((diff(x).^2)+(diff(f).^2)));
+
+%% problem 5
+x = linspace(-2,2);
+y1 = 3*sech(x).^2 - 1;
+y2 = x.^2 - 1;
+topsecY = y1(y1 >= 0);
+% lower boundare for top curve answers = y1)
+%[intersect1x, intersect1y] = 
+topsecX = x(find(y1(y1 >= 0)));
+
+bottomsecY = y2(y2 <= 0);
+bottomsecX = x(find(y2(y2 <= 0)));
+tempFirstHalf = abs(y1(1:50)-y2(1:50));
+tempSecondHalf = abs(y1(51:end)-y2(51:end));
+minFirstHald = min(tempFirstHalf);
+minSecondHalf = min(tempSecondHalf);
+indexmin = find(tempFirstHalf == minFirstHalf);
+indexmax = find(tempSecondHalf == minSecondHalf);
+
+
+solutions = [topsecX, bottomsecX ; topsecY , bottomsecY];
+figure(1);hold on;
+plot(x,y1, 'k--')
+plot(x,y2,'k:')
+tempx = solutions(1,:);
+tempy = solutions(2,:);
+plot(tempx,tempy,'.','MarkerSize',10)
+legend('y = 3*sech^2(x) - 1','y = x^2 - 1', 'solution boundaries')
+ylim([-2,4])
+xlabel('x')
+ylabel('y')
+title('Solution to system of nonlinear inequality equations')
+
+% big issues I had with this problem was just gettign the right coordinates
+% for the solutions, and then finding the min and max took too much time.
+p5a = 'see figure 1';
+
+p5b = find(y2(y2 == y1));
+

@@ -1,0 +1,34 @@
+%Setting up base variables
+omega = 250*6;
+ro = 51;
+rf = 6;
+
+% Generated height trajectory of the follower functions (Pulled from hw3)
+P1 = [2.49472786826397e-09,	-5.61313770359394e-07,	1.43012436928165e-05,...
+    0.00261597364138086,	0.00536777044914011,	-0.000707301851462014];
+
+% displacement functions
+
+%5poly1 range = [0-90]
+disp5Poly1 = @(d) P1(1).*d.^5 + P1(2).*d.^4 +P1(3)*d.^3 +P1(4).*d.^2 + P1(5).*d + P1(6);
+%harmonic range = [120-180]
+dispHarmonic = @(d) 10 + (10/2).*(1 - cosd(((180/(60)).*(d))));
+%cycloid range = [0-70]
+%dispCycloid = @(d) 20 + (12.*((d./70) - ((1/(360)).*sind((360/(70)).*(d)))));
+dispCycloid = @(d) 20 + (12.*((d./70) - (1/(2*pi)).*sind((360/70).*(d))));
+%345 poly range = [0-60]
+disp345Poly = @(d) 32-(32.*((10.*(d./60).^3) - (15.*(d./60).^4) + (6.*(d./60).^5)));
+
+%getting y position array
+Poly51val = disp5Poly1(0:0.1:90);
+dwell1val = zeros(1,299) + disp5Poly1(90);
+Harmonicval = dispHarmonic(120:0.1:180);
+dwell2val = zeros(1,299) + dispHarmonic(180);
+Cycloidalval = dispCycloid(0:0.1:70);
+dwell3val = zeros(1,199) + dispCycloid(70);
+Poly345val = disp345Poly(0:0.1:60);
+
+% yval = [Poly51val,dwell1val,Harmonicval,dwell2val,Cycloidalval,dwell3val,Poly345val];
+% xval = 0:0.1:360;
+% plot(xval,yval)
+plot(210:0.1:280,Cycloidalval)

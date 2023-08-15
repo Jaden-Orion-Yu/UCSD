@@ -1,0 +1,316 @@
+%% Problem 1 A
+clear;clc;
+
+%Setting up base variables
+omega = 250*6;
+ro = 51;
+rf = 6;
+
+% Generated height trajectory of the follower functions (Pulled from hw3)
+P1 = [2.49472786826397e-09,	-5.61313770359394e-07,	1.43012436928165e-05,...
+    0.00261597364138086,	0.00536777044914011,	-0.000707301851462014];
+
+% displacement functions
+
+%5poly1 range = [0-90]
+disp5Poly1 = @(d) P1(1).*d.^5 + P1(2).*d.^4 +P1(3)*d.^3 +P1(4).*d.^2 + P1(5).*d + P1(6);
+%harmonic range = [120-180]
+dispHarmonic = @(d) 10 + (10/2).*(1 - cosd(((180/(60)).*(d))));
+%cycloid range = [0-70]
+dispCycloid = @(d) 20 + 12.*((d./70) - (1/(2*pi)*sind((2*180/(70)).*(d))));
+%345 poly range = [0-60]
+disp345Poly = @(d) 32-(32.*((10.*(d./60).^3) - (15.*(d./60).^4) + (6.*(d./60).^5)));
+
+%dy/dtheta functions
+d5Poly1 = @(d) ((5*P1(1)).*d.^4) + ((4*P1(2)).*d.^3) +((3*P1(3)).*d.^2) +((2*P1(4)).*d) + (P1(5));
+dHarmonic = @(d) ((10/2)*(180/60)).*sind(((180/60)).*(d));
+dCycloid = @(d) (12/70)*(1- cosd((2*180/(70)).*(d)));
+d345Poly = @(d)  -(32*(((30).*(d.^2)./(60^3)) - ((60).*(d.^3)./(60^4)) + ((30).*(d.^4)./(60^5))));
+
+% contact point and follower center functions
+XP = @(theta,y) (ro + y).*sind(theta);
+YP = @(theta,y) (ro + y).*cosd(theta);   
+
+XC = @(theta,phi,y) (ro + y).*sind(theta) - (rf.*sind(theta - phi));
+YC = @(theta,phi,y) (ro + y).*cosd(theta) - (rf.*cosd(theta - phi));
+
+%getting y position array
+Poly51val = disp5Poly1(0:0.1:90);
+dwell1val = zeros(1,299) + disp5Poly1(90);
+Harmonicval = dispHarmonic(120:0.1:180);
+dwell2val = zeros(1,299) + dispHarmonic(180);
+Cycloidalval = dispCycloid(0:0.1:70);
+dwell3val = zeros(1,199) + dispCycloid(70);
+Poly345val = disp345Poly(0:0.1:60);
+
+%appending arrays and creating x and y values, along with pressure angle
+yval = [Poly51val,dwell1val,Harmonicval,dwell2val,Cycloidalval,dwell3val,Poly345val];
+%xval = 360:-0.1:0;
+xval = 0:-0.1:-360;
+
+
+dydtheta = [d5Poly1(0:.1:90),zeros(1,299),... 
+    dHarmonic(120:0.1:180), zeros(1,299),dCycloid(0:0.1:70),...
+    zeros(1,199),d345Poly(0:0.1:60)];
+phi = atand(dydtheta./(ro + yval));
+xPitch   = XP(xval,yval);
+yPitch = YP(xval,yval);
+xCont = XC(xval,phi,yval);
+yCont = YC(xval,phi,yval);
+
+%test plot
+% figure(2)
+% plot(xval,phi)
+
+%plotting for 1A
+
+figure(1)
+% prime circle
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch,yPitch,'r--')
+hold on;
+%contour
+plot(xCont,yCont,'k')
+hold on;
+title('prime circle, contour, and pitch radius')
+ylim([-80,80])
+xlim([-90,90])
+daspect([1,1,1])
+xlabel('X (mm)')
+ylabel('Y (mm)')
+grid on;
+
+% 1B
+
+%rotation matrices
+%r1 = 60deg
+r1 = [cosd(60),sind(60),0;-sind(60),cosd(60),0;0,0,1];
+%r2 = 120
+r2 = [cosd(120),sind(120),0;-sind(120),cosd(120),0;0,0,1];
+%r3 = 180
+r3 = [cosd(180),sind(180),0;-sind(180),cosd(180),0;0,0,1];
+%r4 = 240
+r4 = [cosd(240),sind(240),0;-sind(240),cosd(240),0;0,0,1];
+%r5 = 300
+r5 = [cosd(300),sind(300),0;-sind(300),cosd(300),0;0,0,1];
+
+%setting up x and y value arrays
+x0 = xval;
+y0 = yval;
+bottomRowTemp = zeros(1,length(x0))+ 1;
+
+p1 = r1*[x0;y0;bottomRowTemp];
+x1 = p1(1,:);
+y1 = p1(2,:);
+pitch1 = r1*[xPitch;yPitch;bottomRowTemp];
+cont1 = r1*[xCont;yCont;bottomRowTemp];
+xPitch1 = pitch1(1,:);
+yPitch1 = pitch1(2,:);
+xCont1 = cont1(1,:);
+yCont1 = cont1(2,:);
+
+p2 = r2*[x0;y0;bottomRowTemp];
+x2 = p2(1,:);
+y2 = p2(2,:);
+pitch2 = r2*[xPitch;yPitch;bottomRowTemp];
+cont2 = r2*[xCont;yCont;bottomRowTemp];
+xPitch2 = pitch2(1,:);
+yPitch2 = pitch2(2,:);
+xCont2 = cont2(1,:);
+yCont2 = cont2(2,:);
+
+p3 = r3*[x0;y0;bottomRowTemp];
+x3 = p3(1,:);
+y3 = p3(2,:);
+pitch3 = r3*[xPitch;yPitch;bottomRowTemp];
+cont3 = r3*[xCont;yCont;bottomRowTemp];
+xPitch3 = pitch3(1,:);
+yPitch3 = pitch3(2,:);
+xCont3 = cont3(1,:);
+yCont3 = cont3(2,:);
+
+p4 = r4*[x0;y0;bottomRowTemp];
+x4 = p4(1,:);
+y4 = p4(2,:);
+pitch4 = r4*[xPitch;yPitch;bottomRowTemp];
+cont4 = r4*[xCont;yCont;bottomRowTemp];
+xPitch4 = pitch4(1,:);
+yPitch4 = pitch4(2,:);
+xCont4 = cont4(1,:);
+yCont4 = cont4(2,:);
+
+p5 = r5*[x0;y0;bottomRowTemp];
+x5 = p5(1,:);
+y5 = p5(2,:);
+pitch5 = r5*[xPitch;yPitch;bottomRowTemp];
+cont5 = r5*[xCont;yCont;bottomRowTemp];
+xPitch5 = pitch5(1,:);
+yPitch5 = pitch5(2,:);
+xCont5 = cont5(1,:);
+yCont5 = cont5(2,:);
+
+% plotting 1B
+
+figure(2)
+subplot(2,3,1)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch,yPitch,'r--')
+hold on;
+%contour
+plot(xCont,yCont,'k')
+hold on;
+% follower center and radius
+plot(0,yval(1) + ro,'b.') 
+hold on;
+plot(6.*cos(xval),(6.*sin(xval)) + yval(1) + ro ,'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 0 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+subplot(2,3,2)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch1,yPitch1,'r--')
+hold on;
+%contour
+plot(xCont1,yCont1,'k')
+hold on;
+% follower center and circumference
+plot(0,yPitch1(600),'b.') 
+hold on;
+plot(6.*cos(x1),(6.*sin(x1)) + yPitch1(600),'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 60 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+subplot(2,3,3)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch2,yPitch2,'r--')
+hold on;
+%contour
+plot(xCont2,yCont2,'k')
+hold on;
+% follower center and radius
+plot(0,yPitch2(1200),'b.') 
+hold on;
+plot(6.*cos(x1),(6.*sin(x1)) + yPitch2(1200),'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 120 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+subplot(2,3,4)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch3,yPitch3,'r--')
+hold on;
+%contour
+plot(xCont3,yCont3,'k')
+hold on;
+% follower center and radius
+plot(0,yPitch3(1801),'b.') 
+hold on;
+plot(6.*cos(x1),(6.*sin(x1)) + yPitch3(1801),'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 180 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+subplot(2,3,5)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch4,yPitch4,'r--')
+hold on;
+%contour
+plot(xCont4,yCont4,'k')
+hold on;
+% follower center and radius
+plot(0,yPitch4(2400),'b.') 
+hold on;
+plot(6.*cos(x1),(6.*sin(x1)) + yPitch4(2400),'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 240 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+subplot(2,3,6)
+plot(45*cosd(xval),45*sind(xval),'b');
+hold on;
+%centerpoint
+plot(0,0,'k.')
+hold on;
+%pitch curve
+plot(xPitch5,yPitch5,'r--')
+hold on;
+%contour
+plot(xCont5,yCont5,'k')
+hold on;
+% follower center and radius
+plot(0,yPitch5(3000),'b.') 
+hold on;
+plot(6.*cos(x1),(6.*sin(x1)) + yPitch5(3000),'b') 
+hold on;
+ylim([-100,100])
+xlim([-100,100])
+daspect([1,1,1])
+grid on;
+title('displaced 300 degrees')
+xlabel('X (mm)')
+ylabel('Y (mm)')
+
+%% Problem 2 
+
+xOut = ([xCont(:,1:5:end),xCont(1)]).';
+yOut = ([yCont(:,1:5:end),yCont(1)]).';
+zOut = zeros(length(yOut),1);
+output = [xOut,yOut,zOut];
+csvwrite( 'cam_profile.txt', output);

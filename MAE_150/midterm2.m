@@ -1,0 +1,9 @@
+clear; clc;
+E =  210*(10^9);
+A = pi*(0.02^2);
+L = sqrt((6-4)^2 + (4.5-3)^2);
+k_neutral = @(x) [cosd(x)^2,cosd(x)*sind(x),-(cosd(x)^2),-(cosd(x)*sind(x));...
+            cosd(x)*sind(x),sind(x)^2,-(cosd(x)*sind(x)),-(sind(x)^2);...
+            -(cosd(x)^2),-(cosd(x)*sind(x)),cosd(x)^2,cosd(x)*sind(x);...
+            -(cosd(x)*sind(x)),-(sind(x)^2),cosd(x)*sind(x),sind(x)^2] .*(A*E/(L));
+t = k_neutral(60)

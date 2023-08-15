@@ -1,0 +1,40 @@
+%% Problem 2
+%   
+% Objective: Calculate the coefficients of the equation 
+% X(t) = a0 + a1t + a2t^2
+% using the given point values with the least squares method.
+%
+% settign up the intial t and x values
+%
+x = [-0.9,1.7,2.1,0.2,-0.7];
+t = [1.0,3.0,4.0,5.0,7.0];
+%
+% Using the fixed point method generated matrix and vector to solve for the
+% coefficients
+%
+A = [sum(t.^2),sum(t.^3),sum(t.^4);sum(t),sum(t.^2),sum(t.^3);5,sum(t),sum(t.^2)];
+b = [sum(x.*(t.^2));sum(x.*t);sum(x)];
+%
+% Using matlab to solve the Ax = b with x being the solution vector
+%
+Soln = A\b;
+%
+% settign the coefficient values from the solution vector
+%
+a0 = Soln(1);
+a1 = Soln(2);
+a2 = Soln(3);
+%
+% setting the equations to graph the given coefficients when added to the
+% inital equation
+%
+t2 = linspace(0,10);
+x2 = a0 + a1*t2 + a2*t2.^2;
+%
+% Plotting the individual points and the least squares approximation
+%
+plot(t,x,'r.',t2,x2,'k')
+legend('[t,x]','X(t) = a0 + a1t + a2t^2')
+xlabel('t');
+ylabel('x');
+title('Using the lease squares method to solve for given function of X(t) = a0 + a1t + a2t^2 with the initial values of [t,x]')

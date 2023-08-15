@@ -1,0 +1,60 @@
+%% problem 4
+%
+% Objective: Caclulate the approximate 2nd derivative and its error for using
+% the derAprox2nd function and steps of h= 10^-j with j values from 0-5. Then
+% graph the log10 of the error against the log of h to compare. The error of
+% a derrivative approximation is the absolute value of the derAprox(x) - f'(f)
+%
+% Functions called
+%   derAprox2nd
+%
+% Setting the value of the function f1 that will be approximated and
+% setting its derrivative.
+f1 = @(x) log((x^2) + 2);
+d2f1 = @(x) (2/((x^2)));
+%
+% Setting the array of values that h will be to the power to
+%
+j = 0:1:5;
+%
+% setting empty arrays for the values of e, e stands for error
+%
+e2 = zeros(1,6);
+%
+% Setting the empty h array
+%
+h = zeros(1,6);
+%
+% setting the value of xo that is used for the derrivative approximation
+%
+xo = 0;
+%
+% Starting the for loop to populate the e, eHat, eTilde, and h arrays. it
+% iterates from 1 to 11 to use each value of j
+%
+for i = 1:1:length(j)
+    %
+    % Calling each derAprox function to compute the approximate 
+    % 2nd derrivative and populate the error arrays, using step as a temporary
+    % variable
+    %
+    step = 10^(-j(i));
+    e2(i) = abs(derAprox(f1,xo,step) - d2f1(xo));
+    h(i) = step;
+end
+%
+% Creating a plot with log10(e2) against log10(h).
+%
+plot(log10(h),log10(e2), 'r')
+%
+% Adding a legend to the plot
+%
+legend('log10(e2)','Location', 'northwest');
+%
+% Adding Axis labels and title and adding grid
+%
+xlabel('log10(h)')
+ylabel('log10(error)')
+title('Question 4')
+grid on
+hold off;
