@@ -63,6 +63,7 @@ xlabel('omega (rads/s)');
 ylabel('phi (deg)')
 
 %% Question 3
+ syms s Vi Vo C L R C1 C2 Rd
 % Second-order low-pass LC filter With Resistor and capacitor at Vo: Solve for Vo as a function of Vi
 % x={I_L,I_C1,I_C2,I_Rd,Vmid,V_o}  <-- unknown vector
 A2  =[0   0  -1  -1   0   0;    % 0 = I_C2 - I_Rd
@@ -97,36 +98,13 @@ xlabel('omega (rads/s)');
 ylabel('phi (deg)')
 
 %% Question 4
- syms s Vi Vo C L R
 % Second-order low-pass LC filter With Resistor and capacitor at Vo: Solve for Vo as a function of Vi
 % C2 = 4C, Rd = sqrt(L/C)
 % x={I_L,I_C1,I_C2,I_Rd,Vmid,V_o}  <-- unknown vector
-A3  =[0   0  -1  -1   0   0;    % 0 = I_C2 - I_Rd
+A2  =[0   0  -1  -1   0   0;    % 0 = I_C2 - I_Rd
      -1   1   0   1   0   0;    % 0 = I_C1 + I_Rd - I_L 
-      0  -1   0   0   0   C*s;   % 0 = C*s*Vo - I_C1
-      0   0   0   sqrt(L/C)  -1   1;    % 0 = I_Rd*sqrt(L/C) - Vmid + Vo
-      0   0  -1   0   0   4*C*s;    % 0 = 4*C*s*Vmid - I_C2
+      0  -1   0   0   0   C1*s;   % 0 = C*s*Vo - I_C1
+      0   0   0   Rd  -1   1;    % 0 = I_Rd*sqrt(L/C) - Vmid + Vo
+      0   0  -1   0   0   C2*s;    % 0 = 4*C*s*Vmid - I_C2
      L*s   0   0   0   0   1];   % Vi = Vo + L*s*I_L
-b3  =[ 0; 0; 0; 0; 0; Vi]; 
-% Solving for Vo using matrix operations
-x3=A3\b3;
-Vo_LPF2RC2=simplify(x3(6))
-
-% Setting the transfer function G(s) as Vo(x)/Vi(s)
-G3 = x3(6)/b3(6)
-
-% plotting
-omega6 = 10;
-
-F_LPF2RC2=RR_tf([omega6^2],[-1 0 omega6^2]); 
-
-figure(5)
-RR_bode(F_LPF2RC2);
-hold on;
-subplot(2,1,1)
-title('Bode Plot of 2nd order low pass filter with resistor and capacitor at Vout','omega6 = 10 rad/s');
-ylabel('signal magnitude')
-xlabel('omega (rads/s)');
-subplot(2,1,2)
-xlabel('omega (rads/s)');
-ylabel('phi (deg)')
+b2  =[ 0; 0; 0; 0; 0; Vi]; 
