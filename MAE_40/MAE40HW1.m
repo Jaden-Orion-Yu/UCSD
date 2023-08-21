@@ -63,6 +63,7 @@ xlabel('omega (rads/s)');
 ylabel('phi (deg)')
 
 %% Question 3
+clear,clc, close all, syms s Vi Vo C L R C1 C2 Rd
 % Second-order low-pass LC filter With Resistor and capacitor at Vo: Solve for Vo as a function of Vi
 % x={I_L,I_C1,I_C2,I_Rd,Vmid,V_o}  <-- unknown vector
 A2  =[0   0  -1  -1   0   0;    % 0 = I_C2 - I_Rd
