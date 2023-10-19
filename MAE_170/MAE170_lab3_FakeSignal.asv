@@ -143,17 +143,16 @@ oscFreq = [24916;49831;99667;99667;99667];
 
 %% graph of aliasing
 figure(15)
-plot(fInput,ardFTTfreq,'--r');
+plot(fInput,ardFFTfreq,'--r');
 hold on;
-plot(fInput,oscFTTfreq,'--g');
+plot(fInput,oscFFTfreq,'--r');
 hold on;
-plot(fInput,ardFreq,'--b');
+plot(fInput,ardFreq,'--r');
 hold on;
-plot(fInput,oscFreq,'--c');
+plot(fInput,oscFreq,'--r');
 hold on;
-plot(fInput,fPred,'--m');
+plot(fInput,freq,'--r');
 hold on;
-legend('Arduino FTT Frequency','Oscope FTT Frequency','Arduino Frequency','Oscope Frequency','Predicted Frequency')
 set(gca,'FontSize',22,'LineWidth',2);
 xlabel('input frequency [hz]')
 ylabel('output freq');

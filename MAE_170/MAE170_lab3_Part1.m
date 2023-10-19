@@ -1,7 +1,7 @@
 close all; %close all open windows
 clear; %clear all variables
 clc; %clear output screen
-instrreset; % reset interface objects
+%instrreset; % reset interface objects
 %% Parameters to set
 T = 5; % Total sampling time in seconds
 fs = 500; % Hz
@@ -63,7 +63,8 @@ figure(01); % setup figure 01
 plot(time, voltage(1:reps),'-o','LineWidth',2,'MarkerSize',4);
 xlabel('time (s)'); % x-axis label name
 ylabel('voltage (V)'); % y-axis label name
-ylim(min(voltage)-abs(0.1*max(voltage))-max(voltage)+abs(0.1*max(voltage))); % set y plot range
+ylim([min(voltage)-abs(0.1*max(voltage))...
+    max(voltage)+abs(0.1*max(voltage))]); % set y plot range
 
 title('Voltage vs. Time Sample'); % set title
 % get current plot axes, set font and line width
