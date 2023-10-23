@@ -15,7 +15,9 @@ ylabel('|FT|');
 title("pred 1000hz")
 
 fInput = [200;400;600;800;1000];
-fPred = [199.98;399.96;599.94;799.92;999.9];
+
+%fPred = [199.98;399.96;599.94;799.92;999.9];
+
 
 data200 = readcell('200data.xlsx');
 data400 = readcell('400data.xlsx');
