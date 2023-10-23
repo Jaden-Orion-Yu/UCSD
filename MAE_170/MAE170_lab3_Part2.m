@@ -9,7 +9,7 @@ sampleT=1;%Set sampling time in seconds
 % you can find this through the arduino interface (tools->port)
 % the baud rate must match what you selected in your serial read ...
 % Ardino code
-dataLogger=serialport('COM4',115200);%Connect to arduino
+dataLogger=serialport('COM6',115200);%Connect to arduino
 %% Arduino data capture
 newV=0;%intialize variables
 newT=0;%intialize variables
@@ -29,11 +29,20 @@ clear dataLogger;%delete dataLogger variable so you can use the com port again
 
 %% Read Oscilloscope Data
 [vOscope,tOscope]=oscread();
+
+% excel output section
+    ardData = [tArduino.', vArduino.']; % variable for excel output
+    oscData = [tOscope.', vOscope.']; % variable for excel output
+    filename = 'lab3dataset1.xlsx';
+    writematrix(ardData, filename, 'Sheet', 5, 'Range', 'A1');
+    writematrix(oscData, filename, 'Sheet', 5, 'Range', 'C1');
+% end excel output
+
 function [wave,time] = oscread()
     %% may need to use tmtool to scan for oscilloscope resource
     buffer=2048; % buffer size
     % set oscilloscope visa object
-    oscObj = visa('NI', 'USB0::0x1AB1::0x0588::<OSCILLOSCOPE ID>::0');
+    oscObj = visa('NI', 'USB0::0x1AB1::0x0588::DS1ET201302578::0');
     oscObj.InputBufferSize = buffer; % Set the buffer size
     fopen(oscObj) % Open oscilloscope connection
     fprintf(oscObj,':wav:data?'); % Pull data from Channel 1

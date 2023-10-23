@@ -1,11 +1,20 @@
-Fs = 460;
+Fs = 2000;
 time = (0:1/Fs:1); % Time vector
 
 %for each new signal change "30" input new frequency, EG for 200hz input
 %200.
-signal = sin(2*pi*200*time);
+signal = sin(2*pi*800*time);
 
-fInput = [200;400;600;800;1000]
+[freq, amp]=MAE170fft(time, signal);
+figure(2)
+
+semilogy(freq, amp,'-ob','LineWidth',2,'MarkerSize',4);
+set(gca,'FontSize',22,'LineWidth',2);
+xlabel('frequency [Hz]')
+ylabel('|FT|');
+title("pred 600hz")
+
+fInput = [200;400;600;800;1000];
 fPred = [199.98;399.96;599.94;799.92;999.9];
 
 data200 = readcell('200data.xlsx');
@@ -42,6 +51,74 @@ vArd1000 = cell2mat(data1000(:,2));
 tOsc1000 = cell2mat(data1000(1:598,3));
 vOsc1000 = cell2mat(data1000(1:598,4));
 
+FsArd = [0;0;0;0;0];
+FsOsc = [0;0;0;0;0];
+for i = 1:10
+    switch i
+        case 1
+            period = 0;
+            for n = 1:997
+                period = period + tArd200(i+1) - tArd200(i);
+            end
+            FsArd(1) = 1/(period/998);
+        case 2
+            period = 0;
+            for n = 1:597
+                period = period + tOsc200(i+1) - tOsc200(i);
+            end
+            FsOsc(1) = 1/(period/598);
+        case 3
+            period = 0;
+            for n = 1:997
+                period = period + tArd400(i+1) - tArd400(i);
+            end
+            FsArd(2) = 1/(period/998);
+        case 4
+            period = 0;
+            for n = 1:597
+                period = period + tOsc200(i+1) - tOsc200(i);
+            end
+            FsOsc(2) = 1/(period/598);
+        case 5
+            period = 0;
+            for n = 1:997
+                period = period + tArd600(i+1) - tArd600(i);
+            end
+            FsArd(3) = 1/(period/998);
+        case 6
+            period = 0;
+            for n = 1:597
+                period = period + tOsc600(i+1) - tOsc600(i);
+            end
+            FsOsc(3) = 1/(period/598);
+        case 7
+            period = 0;
+            for n = 1:997
+                period = period + tArd800(i+1) - tArd800(i);
+            end
+            FsArd(4) = 1/(period/998);
+        case 8
+            period = 0;
+            for n = 1:597
+                period = period + tOsc800(i+1) - tOsc800(i);
+            end
+            FsOsc(4) = 1/(period/598);
+        case 9
+            period = 0;
+            for n = 1:997
+                period = period + tArd1000(i+1) - tArd1000(i);
+            end
+            FsArd(5) = 1/(period/998);
+        case 10
+            period = 0;
+            for n = 1:597
+                period = period + tOsc1000(i+1) - tOsc1000(i);
+            end
+            FsOsc(5) = 1/(period/598);
+    end
+end
+
+
 
 
 %the peak on the FTT for any
@@ -53,38 +130,39 @@ vOsc1000 = cell2mat(data1000(1:598,4));
 % ylabel('Amplitude (a.u.)');
 
 
+
 %% graphing oscilloscope
 %[freq, amp]=MAE170fft(time, signal);
 % figure(2)
-% [freqOsc200,ampOsc200] = MAE170fft(tOsc200,vOsc200);
+ [freqOsc200,ampOsc200] = MAE170fft(tOsc200,vOsc200);
 % semilogy(freqOsc200, ampOsc200,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Osc  FTT 200hz")
 % figure(3)
-% [freqOsc400,ampOsc400] = MAE170fft(tOsc400,vOsc400);
+ [freqOsc400,ampOsc400] = MAE170fft(tOsc400,vOsc400);
 % semilogy(freqOsc400, ampOsc400,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Osc FTT  400hz")
 % figure(4)
-% [freqOsc600,ampOsc600] = MAE170fft(tOsc600,vOsc600);
+ [freqOsc600,ampOsc600] = MAE170fft(tOsc600,vOsc600);
 % semilogy(freqOsc600, ampOsc600,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Osc FTT  600hz")
 % figure(5)
-% [freqOsc800,ampOsc800] = MAE170fft(tOsc800,vOsc800);
+ [freqOsc800,ampOsc800] = MAE170fft(tOsc800,vOsc800);
 % semilogy(freqOsc800, ampOsc800,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Osc FTT  800hz")
 % figure(6)
-% [freqOsc1000,ampOsc1000] = MAE170fft(tOsc1000,vOsc1000);
+ [freqOsc1000,ampOsc1000] = MAE170fft(tOsc1000,vOsc1000);
 % semilogy(freqOsc1000, ampOsc1000,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
@@ -93,35 +171,35 @@ vOsc1000 = cell2mat(data1000(1:598,4));
 
 %% graphing arduino
 % figure(7)
-% [freqArd200,ampArd200] = MAE170fft(tArd200,vArd200);
+ [freqArd200,ampArd200] = MAE170fft(tArd200,vArd200);
 % semilogy(freqArd200, ampArd200,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Ard FTT 200hz")
 % figure(8)
-% [freqArd400,ampArd400] = MAE170fft(tArd400,vArd400);
+ [freqArd400,ampArd400] = MAE170fft(tArd400,vArd400);
 % semilogy(freqArd400, ampArd400,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Ard FTT 400hz")
 % figure(9)
-% [freqArd600,ampArd600] = MAE170fft(tArd600,vArd600);
+ [freqArd600,ampArd600] = MAE170fft(tArd600,vArd600);
 % semilogy(freqArd600, ampArd600,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Ard FTT 600hz")
 % figure(10)
-% [freqArd800,ampArd800] = MAE170fft(tArd800,vArd800);
+ [freqArd800,ampArd800] = MAE170fft(tArd800,vArd800);
 % semilogy(freqArd800, ampArd800,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
 % ylabel('|FT|');
 % title("Ard FTT 800hz")
 % figure(11)
-% [freqArd1000,ampArd1000] = MAE170fft(tArd1000,vArd1000);
+ [freqArd1000,ampArd1000] = MAE170fft(tArd1000,vArd1000);
 % semilogy(freqArd1000, ampArd1000,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
@@ -140,22 +218,31 @@ oscFTTfreq = [208.333;416.667;666.667;833.333;1000];
 ardFreq = [2000;2000;2000;2000;2000];
 oscFreq = [24916;49831;99667;99667;99667];
 
+tNames = {"Fs input","Arduino Fs","Oscope Fs","Arduino Ftt Fs","Oscope Ftt Fs","Predicted Frequency"};
+
+%T = table(Finput,ardFreq,oscFreq,ardFTTfreq,oscFTTfreq,Fpred,'CollumnNames')
+
 
 %% graph of aliasing
 figure(15)
-plot(fInput,ardFFTfreq,'--r');
+plot(fInput,ardFTTfreq,'--*r');
 hold on;
-plot(fInput,oscFFTfreq,'--r');
+plot(fInput,oscFTTfreq,'--*g');
 hold on;
-plot(fInput,ardFreq,'--r');
+% plot(fInput,ardFreq,'--*b');
+% hold on;
+% I think there's an error with the oscope and arduino frequency
+% plot(fInput,oscFreq,'--*c');
+% hold on;
+plot(fInput,fPred,'--*m');
 hold on;
-plot(fInput,oscFreq,'--r');
-hold on;
-plot(fInput,freq,'--r');
-hold on;
+xline(500,'--k')
+hold on
+legend('Arduino FTT Frequency','Oscope FTT Frequency','Predicted Frequency','Aliasing Point for Arduino')
 set(gca,'FontSize',22,'LineWidth',2);
 xlabel('input frequency [hz]')
 ylabel('output freq');
+grid on;
 title("Aliasing comparison")
 
 
