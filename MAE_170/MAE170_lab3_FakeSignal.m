@@ -1,4 +1,4 @@
-Fs = 1000;
+Fs = 997.5768;
 time = (0:1/Fs:1); % Time vector
 
 %for each new signal change "30" input new frequency, EG for 200hz input
@@ -16,7 +16,7 @@ title("pred 1000hz")
 
 fInput = [200;400;600;800;1000];
 
-%fPred = [199.98;399.96;599.94;799.92;999.9];
+fPred = [199.915;399.83;397.831;197.916;1.999];
 
 
 data200 = readcell('200data.xlsx');
@@ -60,61 +60,61 @@ for i = 1:10
         case 1
             period = 0;
             for n = 1:997
-                period = period + tArd200(i+1) - tArd200(i);
+                period = period + tArd200(n+1) - tArd200(n);
             end
             FsArd(1) = 1/(period/998);
         case 2
             period = 0;
             for n = 1:597
-                period = period + tOsc200(i+1) - tOsc200(i);
+                period = period + tOsc200(n+1) - tOsc200(n);
             end
             FsOsc(1) = 1/(period/598);
         case 3
             period = 0;
             for n = 1:997
-                period = period + tArd400(i+1) - tArd400(i);
+                period = period + tArd400(n+1) - tArd400(n);
             end
             FsArd(2) = 1/(period/998);
         case 4
             period = 0;
             for n = 1:597
-                period = period + tOsc200(i+1) - tOsc200(i);
+                period = period + tOsc200(n+1) - tOsc200(n);
             end
             FsOsc(2) = 1/(period/598);
         case 5
             period = 0;
             for n = 1:997
-                period = period + tArd600(i+1) - tArd600(i);
+                period = period + tArd600(n+1) - tArd600(n);
             end
             FsArd(3) = 1/(period/998);
         case 6
             period = 0;
             for n = 1:597
-                period = period + tOsc600(i+1) - tOsc600(i);
+                period = period + tOsc600(n+1) - tOsc600(n);
             end
             FsOsc(3) = 1/(period/598);
         case 7
             period = 0;
             for n = 1:997
-                period = period + tArd800(i+1) - tArd800(i);
+                period = period + tArd800(n+1) - tArd800(n);
             end
             FsArd(4) = 1/(period/998);
         case 8
             period = 0;
             for n = 1:597
-                period = period + tOsc800(i+1) - tOsc800(i);
+                period = period + tOsc800(n+1) - tOsc800(n);
             end
             FsOsc(4) = 1/(period/598);
         case 9
             period = 0;
             for n = 1:997
-                period = period + tArd1000(i+1) - tArd1000(i);
+                period = period + tArd1000(n+1) - tArd1000(n);
             end
             FsArd(5) = 1/(period/998);
         case 10
             period = 0;
             for n = 1:597
-                period = period + tOsc1000(i+1) - tOsc1000(i);
+                period = period + tOsc1000(n+1) - tOsc1000(n);
             end
             FsOsc(5) = 1/(period/598);
     end
@@ -201,7 +201,7 @@ end
 % ylabel('|FT|');
 % title("Ard FTT 800hz")
 % figure(11)
- [freqArd1000,ampArd1000] = MAE170fft(tArd1000,vArd1000);
+  [freqArd1000,ampArd1000] = MAE170fft(tArd1000,vArd1000);
 % semilogy(freqArd1000, ampArd1000,'-ob','LineWidth',2,'MarkerSize',4);
 % set(gca,'FontSize',22,'LineWidth',2);
 % xlabel('frequency [Hz]')
@@ -217,8 +217,8 @@ end
 
 ardFTTfreq = [203.725;407.499;385.479;181.754;21.9703];
 oscFTTfreq = [208.333;416.667;666.667;833.333;1000];
-ardFreq = [2000;2000;2000;2000;2000];
-oscFreq = [24916;49831;99667;99667;99667];
+ardFreq = FsArd;
+oscFreq = FsOsc;
 
 tNames = {"Fs input","Arduino Fs","Oscope Fs","Arduino Ftt Fs","Oscope Ftt Fs","Predicted Frequency"};
 
@@ -242,8 +242,8 @@ xline(500,'--k')
 hold on
 legend('Arduino FTT Frequency','Oscope FTT Frequency','Predicted Frequency','Aliasing Point for Arduino')
 set(gca,'FontSize',22,'LineWidth',2);
-xlabel('input frequency [hz]')
-ylabel('output freq');
+xlabel('input frequency [Hz]')
+ylabel('FFT output frequency [Hz]');
 grid on;
 title("Aliasing comparison")
 
