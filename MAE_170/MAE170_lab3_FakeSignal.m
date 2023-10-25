@@ -220,27 +220,27 @@ oscFTTfreq = [208.333;416.667;666.667;833.333;1000];
 ardFreq = FsArd;
 oscFreq = FsOsc;
 
-tNames = {"Fs input","Arduino Fs","Oscope Fs","Arduino Ftt Fs","Oscope Ftt Fs","Predicted Frequency"};
+tNames = {"Fs input","Arduino Fs","Oscope Fs","Arduino FFT Fs","Oscope FFT Fs","Predicted Arduino FFT Fs"};
 
 %T = table(Finput,ardFreq,oscFreq,ardFTTfreq,oscFTTfreq,Fpred,'CollumnNames')
 
 
 %% graph of aliasing
 figure(15)
-plot(fInput,ardFTTfreq,'--*r');
+plot(fInput,ardFTTfreq,'-or','MarkerSize',10);
 hold on;
-plot(fInput,oscFTTfreq,'--*g');
+plot(fInput,oscFTTfreq,'-xg','MarkerSize',10);
 hold on;
 % plot(fInput,ardFreq,'--*b');
 % hold on;
 % I think there's an error with the oscope and arduino frequency
 % plot(fInput,oscFreq,'--*c');
 % hold on;
-plot(fInput,fPred,'--*m');
+plot(fInput,fPred,'-diamondm','MarkerSize',10);
 hold on;
 xline(500,'--k')
 hold on
-legend('Arduino FTT Frequency','Oscope FTT Frequency','Predicted Frequency','Aliasing Point for Arduino')
+legend('Arduino FFT Frequency','Oscope FFT Frequency','Predicted Arduino FFT Fs','Aliasing Point for Arduino')
 set(gca,'FontSize',22,'LineWidth',2);
 xlabel('input frequency [Hz]')
 ylabel('FFT output frequency [Hz]');
