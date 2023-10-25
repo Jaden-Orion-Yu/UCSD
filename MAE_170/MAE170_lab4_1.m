@@ -24,14 +24,14 @@ for j=1:length(f_vec) % loop over each frequency to be tested
     % acting as your oscilloscope
     % open object for your signal generator arduino
     % this segment sets the frequency of the generated signal
-    s_gen = serial('COM11','BaudRate',115200);
+    s_gen = serial('COM3','BaudRate',115200);
     fopen(s_gen); % open the serial connection
     pause(5); % pause for 5 seconds while the serial object is opened
     fprintf(s_gen,'%s',int2str(f_vec(j))); % write the signal frequency
     fclose(s_gen); % close serial object
     pause(2);
     % open object for your "read" arduino
-    s_read = serial('COM9','BaudRate',115200);
+    s_read = serial('COM4','BaudRate',115200);
     fopen(s_read); % opens said serial object
     flag=0; %set flag for timer
     i=1; % set sample counter
