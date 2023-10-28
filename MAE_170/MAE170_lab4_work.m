@@ -27,7 +27,7 @@ legend('nomalized data','analytical equation')
 figure(2)
 x2 = lab4_1(:,1);
 y2a = lab4_1(:,2);
-% cutoff_expect = 
+
 for i = 10:20
     if y2a(i)<= 0.707
        cutoff_expect = i;
@@ -37,19 +37,24 @@ end
 
 
 y2b = 1./sqrt((2.*pi.*x2.*p1(1)).^2 + 1);
+for i = 10:20
+    if y2b(i)<= 0.707
+       cutoff_measured = i;
+       break
+    end
+end
 
 plot(x2,y2a, '-or');
 hold on;
 plot(x2,y2b, '-bdiamond');
 hold on;
 %maxline for each
-yline(y2a(1),'--')
-yline(y2b(1),'--')
-xline(cutoff_expect,'--')
-%xline()
+yline(y2a(1),'*k')
+yline(y2b(1),'xm')
 
+%-3db line for each
+xline(cutoff_expect,'-*k')
+xline(cutoff_measured,'-xm')
 
-
-% figure(3)
 
 
