@@ -13,7 +13,7 @@ y1 = lab4_1(:,2);
 y1 = sqrt((1./(y1.^2)) - 1)./(2.*pi);
 p1 = polyfit(x1,y1,1);
 
-plot(x1,y1,'-or')
+plot(x1,y1,'--or')
 hold on;
 plot(x1, x1.*p1(1) + p1(2),'--bdiamond')
 hold on;
@@ -21,7 +21,7 @@ grid on;
 xlabel('freqeuncy [Hz]')
 ylabel('normalized gain [Hz*ohm*F]')
 title('Question 1')
-legend('normalized data','analytical equation')
+legend('nomalized data','analytical equation')
 
 %% Q2
 figure(2)
@@ -93,7 +93,7 @@ yline(y3a(1),'--r')
 yline(y3b(1),'-b',"LineWidth",3)
 yline(1.414,'-k')
  ylim([0,2.05])
- xlim([1,30])
+ xlim([,30])
 %-3db line for each
 xline(x3(cutoff_expect2),'-.r')
 xline(x3(cutoff_measured2),':b','LineWidth',3)
