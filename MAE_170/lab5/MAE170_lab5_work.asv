@@ -129,15 +129,17 @@ ylabel('time delay (s)','interpreter','latex','FontSize',30)
 %% Q6
 figure (3)
 
-pcolor(d_dif.*100,t,normalize(recMatrix_sig(:,:,13)))
-c = colorbar;
-set(c,'FontSize',20);
-shading interp
-hold on;
-p = plot(d_dif.*100, (-(d_dif))./343 + 0.00099,'r');
-legend(p, 'speed of sound')
-xlabel('X Distance (cm)','interpreter','latex','FontSize',30)
-ylabel('time (s)','interpreter','latex','FontSize',30)
+
+
+% pcolor(d_dif.*100,t,normalize(recMatrix_sig(:,:,13)))
+% c = colorbar;
+% set(c,'FontSize',20);
+% shading interp
+% hold on;
+% plot(d_dif*100, (-d_dif)./343.*100,'r');
+% %legend(p, 'speed of sound')
+% xlabel('X Distance (cm)','interpreter','latex','FontSize',30)
+% ylabel('time (s)','interpreter','latex','FontSize',30)
 
 
 %% Q7
@@ -155,11 +157,11 @@ ylabel('Y Distance (cm)','interpreter','latex','FontSize',30)
 %% Q8
 
 filename = 'scanning.gif';
-t_pcolor = 1:1:588;
-for k= t_pcolor
+t_pcolor = 100:1:350;
+for k= 1:t_pcolor
 %*** your pcolor plot (as created in Q4) but for time t_pcolor(k) ***
     figure(5)
-    pcolor(x,y,normalize(squeeze(recMatrix_sig(k,:,:)).','center','mean'))
+    pcolor(x,y,normalize(squeeze(recMatrix_sig(k,:,:))).')
     xlabel('X Distance (cm)','interpreter','latex','FontSize',30)
     ylabel('Y Distance (cm)','interpreter','latex','FontSize',30)
     
