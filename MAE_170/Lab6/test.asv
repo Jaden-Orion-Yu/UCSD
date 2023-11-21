@@ -10,8 +10,8 @@ kAlu = 204;
 kAcr = 0.2;
 d = 0.00081;
 w = 0.0381;
-A = w*w;
-V = (A*d);
+A = w*d;
+V = (A*w);
 thetaFunc = @(T, Tinf, T0) (T-Tinf)./(T0 - Tinf);
 tau = @(t,k,row,c) (k.*A.*t)./(row.*c.*d*V);
 %% Aluminum Free
@@ -126,8 +126,8 @@ hold on;
 plot(tauAlFree3,log(thetaAlFree3), '.g');
 legend('Al Free 1','Al Free 2','Al Free 3','interpreter','latex','FontSize',12);
 title('Aluminum Free Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 subplot(2,2,2)
 plot(tauAlForced1,log(thetaAlForced1), '-.r')
@@ -137,8 +137,8 @@ hold on;
 plot(tauAlForced3,log(thetaAlForced3), '.g');
 legend('Al Forced 1','Al Forced 2','Al Forced 3','interpreter','latex','FontSize',12);
 title('Aluminum Forced Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 
 subplot(2,2,3)
@@ -149,8 +149,8 @@ hold on;
 plot(tauAcFree3,log(thetaAcFree3), '.g');
 legend('Ac Free 1','Ac Free 2','Ac Free 3','interpreter','latex','FontSize',12);
 title('Acrylic Free Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 
 subplot(2,2,4)
@@ -161,8 +161,8 @@ hold on;
 plot(tauAcForced3,log(thetaAcForced3), '.g');
 legend('Ac Forced 1','Ac Forced 2','Ac Forced 3','interpreter','latex','FontSize',12);
 title('Acrylic Forced Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 %% linear regression 
 fitAlFree1 = polyfit(tauAlFree1,log(thetaAlFree1),1);
@@ -189,8 +189,8 @@ hold on;
 plot(tauAlFree2,fitAlFree2(1).*tauAlFree2,  '--b')
 legend('Al Free 1','Al Free 2','interpreter','latex','FontSize',12);
 title('Aluminum Free Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 subplot(2,2,2)
 plot(tauAlForced2,fitAlForced2(1).*tauAlForced2, '--b')
@@ -198,32 +198,32 @@ hold on;
 plot(tauAlForced3,fitAlForced3(1).*tauAlForced3, '.g')
 legend('Al Forced 2','Al Forced 3','interpreter','latex','FontSize',12);
 title('Aluminum Forced Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 subplot(2,2,3)
-plot(tauAcFree1,fitAcFree1(1).*tauAcFree1, '-.r')
+plot(tauAlFree1,fitAlFree1(1).*tauAcFree1, '-.r')
 hold on;
-plot(tauAcFree2,fitAcFree2(1).*tauAcFree2, '--b')
+plot(log(thetaAcFree2),fitAcFree2(1).*log(thetaAcFree2), '--b')
 hold on;
-plot(tauAcFree3,fitAcFree3(1).*tauAcFree3,'.g');
+plot(log(thetaAcFree3),fitAcFree3(1).*log(thetaAcFree3), '.g');
 legend('Ac Free 1','Ac Free 2','Ac Free 3','interpreter','latex','FontSize',12);
 title('Acrylic Free Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 
 
 subplot(2,2,4)
-plot(tauAcForced1,fitAcForced1(1).*tauAcForced1, '-.r')
+plot(log(thetaAcForced1),fitAcForced1(1).*log(thetaAcForced1), '-.r')
 hold on;
-plot(tauAcForced2,fitAcForced2(1).*tauAcForced2, '--b')
+plot(log(thetaAcForced2),fitAcForced2(1).*log(thetaAcForced2), '--b')
 hold on;
-plot(tauAcForced3,fitAcForced3(1).*tauAcForced3, '.g');
+plot(log(thetaAcForced3),fitAcForced3(1).*log(thetaAcForced3), '.g');
 legend('Ac Forced 1','Ac Forced 2','Ac Forced 3','interpreter','latex','FontSize',12);
 title('Acrylic Forced Convection','interpreter','latex','FontSize',30)
-ylabel('ln(theta)','interpreter','latex','FontSize',30)
-xlabel('Tau','interpreter','latex','FontSize',30)
+xlabel('ln(theta)','interpreter','latex','FontSize',30)
+ylabel('Tau','interpreter','latex','FontSize',30)
 
 %% Averaging tc's
 

@@ -6,8 +6,8 @@ rowAcr = 1180;
 rowAlu = 2707;
 cAcr = 2000;
 cAlu = 879;
-kAcr = 204;
-kAlu = 0.2;
+kAlu = 204;
+kAcr = 0.2;
 d = 0.00081;
 w = 0.0381;
 A = w^2;
@@ -125,7 +125,8 @@ plot(log(thetaAlFree2),tauAlFree2, '--b');
 hold on;
 plot(log(thetaAlFree3),tauAlFree3, '.g');
 legend('Al Free 1','Al Free 2','Al Free 3');
-title('Aluminum Free Convection ln(theta) vs Tau')
+title('Aluminum Free Convection')
+subtitle('ln(theta) vs Tau')
 xlabel('ln(theta)')
 ylabel('Tau')
 
@@ -136,7 +137,8 @@ plot(log(thetaAlForced2),tauAlForced2, '--b');
 hold on;
 plot(log(thetaAlForced3),tauAlForced3, '.g');
 legend('Al Forced 1','Al Forced 2','Al Forced 3');
-title('Aluminum Forced Convection  ln(theta) vs Tau')
+title('Aluminum Forced Convection')
+subtitle('ln(theta) vs Tau')
 xlabel('ln(theta)')
 ylabel('Tau')
 
@@ -160,7 +162,98 @@ plot(log(thetaAcForced2),tauAcForced2, '--b');
 hold on;
 plot(log(thetaAcForced3),tauAcForced3, '.g');
 legend('Ac Forced 1','Ac Forced 2','Ac Forced 3');
-title('Acrylic Forced Convection ln(theta) vs Tau')
+title('Acrylic Forced Convection')
+subtitle('ln(theta) vs Tau')
 xlabel('ln(theta)')
 ylabel('Tau')
 
+%% linear regression 
+fitAlFree1 = polyfit(log(thetaAlFree1),tauAlFree1,1);
+fitAlFree2 = polyfit(log(thetaAlFree2),tauAlFree2,1);
+
+fitAlForced2 = polyfit(log(thetaAlForced2),tauAlForced2,1);
+fitAlForced3 = polyfit(log(thetaAlForced3),tauAlForced3,1);
+
+fitAcFree1 = polyfit(log(thetaAcFree1),tauAcFree1,1);
+fitAcFree2 = polyfit(log(thetaAcFree2),tauAcFree2,1);
+fitAcFree3 = polyfit(log(thetaAcFree3),tauAcFree3,1);
+
+fitAcForced1 = polyfit(log(thetaAcForced1),tauAcForced1,1);
+fitAcForced2 = polyfit(log(thetaAcForced2),tauAcForced2,1);
+fitAcForced3 = polyfit(log(thetaAcForced3),tauAcForced3,1);
+
+
+
+%plotting
+figure(2)
+subplot(2,2,1)
+plot(log(thetaAlFree1),fitAlFree1(1).*log(thetaAlFree1), '-.r')
+hold on;
+plot(log(thetaAlFree2),fitAlFree2(1).*log(thetaAlFree2), '--b')
+legend('Al Free 1','Al Free 2');
+title('Linear regression fit of Aluminum Free Convection')
+subtitle('ln(theta) vs Tau')
+xlabel('ln(theta)')
+ylabel('Tau')
+
+subplot(2,2,2)
+plot(log(thetaAlForced2),fitAlForced2(1).*log(thetaAlForced2), '--b')
+hold on;
+plot(log(thetaAlForced3),fitAlForced3(1).*log(thetaAlForced3), '.g')
+legend('Al Forced 2','Al Forced 3');
+title('Linear regression fit of Aluminum Forced Convection')
+subtitle('ln(theta) vs Tau')
+xlabel('ln(theta)')
+ylabel('Tau')
+
+subplot(2,2,3)
+plot(log(thetaAcFree1),fitAcFree1(1).*log(thetaAcFree1), '-.r')
+hold on;
+plot(log(thetaAcFree2),fitAcFree2(1).*log(thetaAcFree2), '--b')
+hold on;
+plot(log(thetaAcFree3),fitAcFree3(1).*log(thetaAcFree3), '.g');
+legend('Ac Free 1','Ac Free 2');
+title('Linear regression fit of Acrylic Free Convection')
+subtitle('ln(theta) vs Tau')
+xlabel('ln(theta)')
+ylabel('Tau')
+
+
+
+subplot(2,2,4)
+plot(log(thetaAcForced1),fitAcForced1(1).*log(thetaAcForced1), '-.r')
+hold on;
+plot(log(thetaAcForced2),fitAcForced2(1).*log(thetaAcForced2), '--b')
+hold on;
+plot(log(thetaAcForced3),fitAcForced3(1).*log(thetaAcForced3), '.g');
+legend('Ac Forced 1','Ac Forced 2');
+title('Linear regression fit of Acrylic Forced Convection ln(theta) vs Tau')
+xlabel('ln(theta)')
+ylabel('Tau')
+
+%% Averaging tc's
+
+tcAlFree = -1/((fitAlFree1(1) + fitAlFree2(1))/2);
+
+tcAlForced = -1/((fitAlForced2(1) + fitAlForced3(1))/2);
+
+tcAcFree = -1/((fitAcFree1(1) + fitAcFree2(1) + fitAcFree3(1) )/3);
+
+tcAcForced =-1/((fitAcForced1(1) + fitAcForced2(1) + fitAcForced3(1))/3);
+
+%% calculating h_bar and Biot Number
+hAlFree = (rowAlu*V*cAlu)/(tcAlFree*A);
+
+hAlForced = (rowAlu*V*cAlu)/(tcAlForced*A);
+
+hAcFree = (rowAcr*V*cAcr)/(tcAcFree*A);
+
+hAcForced = (rowAcr*V*cAcr)/(tcAcForced*A);
+
+biotAlFree = hAlFree*d/kAlu;
+
+biotAlForced = hAlForced*d/kAlu; 
+
+biotAcFree = hAcFree*d/kAcr;
+
+biotAcForced = hAcForced*d/kAcr;
