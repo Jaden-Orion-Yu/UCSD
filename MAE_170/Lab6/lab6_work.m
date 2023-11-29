@@ -180,7 +180,6 @@ fitAcForced2 = polyfit(tauAcForced2,log(thetaAcForced2),1);
 fitAcForced3 = polyfit(tauAcForced3,log(thetaAcForced3),1);
 
 
-
 %plotting
 figure(2)
 subplot(2,2,1)
@@ -212,8 +211,6 @@ title('Acrylic Free Convection','interpreter','latex','FontSize',30)
 ylabel('ln(theta)','interpreter','latex','FontSize',30)
 xlabel('Tau','interpreter','latex','FontSize',30)
 
-
-
 subplot(2,2,4)
 plot(tauAcForced1,fitAcForced1(1).*tauAcForced1, '-.r')
 hold on;
@@ -225,29 +222,20 @@ title('Acrylic Forced Convection','interpreter','latex','FontSize',30)
 ylabel('ln(theta)','interpreter','latex','FontSize',30)
 xlabel('Tau','interpreter','latex','FontSize',30)
 
-%% Averaging tc's
-
-tcAlFree = -1/((fitAlFree1(1) + fitAlFree2(1))/2);
-
-tcAlForced = -1/((fitAlForced2(1) + fitAlForced3(1))/2);
-
-tcAcFree = -1/((fitAcFree1(1) + fitAcFree2(1) + fitAcFree3(1) )/3);
-
-tcAcForced =-1/((fitAcForced1(1) + fitAcForced2(1) + fitAcForced3(1))/3);
 
 %% calculating h_bar and Biot Number
-hAlFree = (rowAlu*V*cAlu)/(tcAlFree*A);
+biotAlFree = -((fitAlFree1(1) + fitAlFree2(1))/2) ;
 
-hAlForced = (rowAlu*V*cAlu)/(tcAlForced*A);
+biotAlForced = -((fitAlForced2(1) + fitAlForced3(1))/2); 
 
-hAcFree = (rowAcr*V*cAcr)/(tcAcFree*A);
+biotAcFree = -((fitAcFree1(1) + fitAcFree2(1) + fitAcFree3(1) )/3);
 
-hAcForced = (rowAcr*V*cAcr)/(tcAcForced*A);
+biotAcForced = -((fitAcForced1(1) + fitAcForced2(1) + fitAcForced3(1))/3);
 
-biotAlFree = hAlFree*d/kAlu;
+hAlFree = biotAlFree*kAlu/(V/A);
 
-biotAlForced = hAlForced*d/kAlu; 
+hAlForced = biotAlForced*kAlu/(V/A);
 
-biotAcFree = hAcFree*d/kAcr;
+hAcFree = biotAcFree*kAcr/(V/A);
 
-biotAcForced = hAcForced*d/kAcr;
+hAcForced = biotAcForced*kAcr/(V/A);
