@@ -1,25 +1,3 @@
-% 
-% Q1: Neglecting issues related to focus, is it better for the camera to be closer or further from the disk? Briefly explain why.  
-% 
-% 
-% Part III: Process your digital video data
-% 
-% Setup a script to convert the recorded video to images. The sample script provided below will convert your recorded video into a folder of images corresponding to each recorded frame. When you download the lab data video file, it should be placed in the same folder as your Matlab script. Implement the code below, and review the comments on each line to understand its function. 
-
-workingDir = pwd; % set the working directory to the current directory
-frames = 200; % set the number of frames to record
-v_read = VideoReader('YOUR_VIDEO_NAME.avi'); % setup the video reader
-
-mkdir(workingDir,'images'); % make a subfolder to store your images
-
-for i = 1:frames % Create a loop to move through each frame
-    img = readFrame(v_read); % read current frame as an image
-    name = [sprintf('%03d',i) '.jpg']; % dynamically create image filename
-    filename = fullfile(workingDir,'images',name); % add file path/directory
-    imwrite(img,filename);  % create the image file
-end
-
-
 % Setup your image processing code in a separate script (initialize settings and display the first image). In the following, you will build a script to process your images. The start of the sample script is provided below (it will likely be easiest if this is a separate script from the previous). You will likely want to modify the parameters highlighted in yellow. This section sets up the major parameters used in your code, reads in the first image, and then displays it. Implement the code below, and review the comments on each line to understand its function. 
 
 workingDir = pwd;
@@ -41,8 +19,8 @@ title('Original Image'); % set the plot title
 
 %% Grayscale
 figure(02)
-topleft_x=70; % number of pixels to crop from the left
-topleft_y=10; % number of pixels to crop from the top
+topleft_x=270; % number of pixels to crop from the left
+topleft_y=70; % number of pixels to crop from the top
 width=470; % width of the cropped frame (in pixels)
 height=470; % height of the cropped frame (in pixels)
 testfig_crop=imcrop(testfig,[topleft_x topleft_y width height]);
@@ -60,7 +38,7 @@ title('Cropped Image in Grayscale');
 
 %% Threshold Image
 figure(03)
-threshold=125; % threshold value to turn grayscale into binary (0 to 255)
+threshold=60; % threshold value to turn grayscale into binary (0 to 255)
 dims_img = size(testfig_crop_gray); % get image dimensions
 test_fig_binary=uint8(zeros(dims_img)); % initialize a new figure with zeros
 for i=1:dims_img(1) % loop along the cropped grayscale image rows
@@ -84,22 +62,20 @@ title('Cropped Binary Image with Identified Points');
 
 %% Identify points in first binary image
 hold on % turn ‘hold’ on to allow addtl. plots to be overlayed on binary plot
-rot_min = 10; % rotating point minimum pixel radius
-rot_max = 30; % rotating point maximum pixel radius
-ctr_min = 2; % center point minimum pixel radius
-ctr_max = 3; % center point maximum pixel radius
-rot_sens = 0.94; % algorithm sensitivity to find rotating point
+rot_min = 20; % rotating point minimum pixel radius
+rot_max = 45; % rotating point maximum pixel radius
+ctr_min = 10; % center point minimum pixel radius
+ctr_max = 25; % center point maximum pixel radius
+rot_sens = 0.97; % algorithm sensitivity to find rotating point
 ctr_sens = 0.95; % algorithm sensitivity to find center point
-[rotatingpoint.center,rotatingpoint.radii] = imfindcircles(test_fig_binary,[rot_min rot_max],'ObjectPolarity','dark',... 
-'Sensitivity',rot_sens);
+[rotatingpoint.center,rotatingpoint.radii] = imfindcircles(test_fig_binary,[rot_min rot_max],'ObjectPolarity','dark','Sensitivity',rot_sens);
 % find dark circles in the range of 10 to 30 pixel radii (in this case, this will be the “rotating point”)
 % sensitivity denotes threshold for detection of a circle; a lower value will detect fewer circles
 % https://www.mathworks.com/help/images/detect-and-measure-circular-objects-in-an-image.html
 % function returns a vector of the center coordinates of each circle, and a vector of each circle’s radius
 viscircles(rotatingpoint.center,rotatingpoint.radii);  
 % plot the rotating point (overlay on binary plot)
-[centerpoint.center,centerpoint.radii] = imfindcircles(test_fig_binary,[ctr_min ctr_max],'ObjectPolarity','dark',... 
-'Sensitivity',ctr_sens)
+[centerpoint.center,centerpoint.radii] = imfindcircles(test_fig_binary,[ctr_min ctr_max],'ObjectPolarity','dark','Sensitivity',ctr_sens)
 % find the “center” point
 viscircles(centerpoint.center,centerpoint.radii); 
 % plot the center point (overlay on binary plot)
@@ -108,11 +84,9 @@ viscircles(centerpoint.center,centerpoint.radii);
 % 
 % Add this next section of sample script to your signal processing code. This section draws a line between your identified points. Review the comments on each line to understand its function. 
 
-line([rotatingpoint.center(1) centerpoint.center(1)],...
-[rotatingpoint.center(2) centerpoint.center(2)],'Color','k','LineWidth',2);
+line([rotatingpoint.center(1) centerpoint.center(1)],[rotatingpoint.center(2) centerpoint.center(2)],'Color','k','LineWidth',2);
 % plot a line from the rotating point to the center point (overlay it on the binary plot)
-line([centerpoint.center(1) centerpoint.center(1)+width/4],...
-[centerpoint.center(2) centerpoint.center(2)],'Color','g','LineWidth',2);
+line([centerpoint.center(1) centerpoint.center(1)+width/4],[centerpoint.center(2) centerpoint.center(2)],'Color','g','LineWidth',2);
 % plot a line corresponding to a starting angle (overlay it on the binary plot)
 hold off % turn the plot hold off
  
