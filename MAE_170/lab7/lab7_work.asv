@@ -31,23 +31,23 @@ end
 figure(1)
 subplot(3,1,1)
 plot(t,angled,'-r')
-title('angle V time','interpreter','latex','FontSize',20)
-xlabel('t (s)','interpreter','latex','FontSize',15)
-ylabel('angle (deg)','interpreter','latex','FontSize',15)
+title('angle V time')
+xlabel('t (s)')
+ylabel('angle (deg)')
 grid on
 
 subplot(3,1,2)
-plot(t,adjustedangle,'-g')
-title('total angle traversed  V time','interpreter','latex','FontSize',15)
-xlabel('t (s)','interpreter','latex','FontSize',15)
-ylabel('total angle traversed (deg)','interpreter','latex','FontSize',15)
+plot(t,adjustedangle,'-b')
+title('total angle traversed  V time')
+xlabel('t (s)')
+ylabel('total angle traversed (deg)')
 grid on
 
 subplot(3,1,3)
 plot(t,rpm,'-b')
-title('RPM  V time','interpreter','latex','FontSize',15)
-xlabel('t (s)','interpreter','latex','FontSize',15)
-ylabel('RPM (rot/min)','interpreter','latex','FontSize',15)
+title('RPM  V time')
+xlabel('t (s)')
+ylabel('RPM (rot/min)')
 grid on
 
 

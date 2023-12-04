@@ -66,7 +66,7 @@ rot_min = 20; % rotating point minimum pixel radius
 rot_max = 45; % rotating point maximum pixel radius
 ctr_min = 10; % center point minimum pixel radius
 ctr_max = 25; % center point maximum pixel radius
-rot_sens = 0.97; % algorithm sensitivity to find rotating point
+rot_sens = 0.975; % algorithm sensitivity to find rotating point
 ctr_sens = 0.95; % algorithm sensitivity to find center point
 [rotatingpoint.center,rotatingpoint.radii] = imfindcircles(test_fig_binary,[rot_min rot_max],'ObjectPolarity','dark','Sensitivity',rot_sens);
 % find dark circles in the range of 10 to 30 pixel radii (in this case, this will be the “rotating point”)
@@ -186,16 +186,16 @@ angled=angled+180;
 % Q7: This question pertains to WLO2. Main task: Create, via Matlab, and turn in a plot, including caption, with three panels: angle measured vs. time; total angle traversed vs. time; and revolutions per minute vs. time. You should use the data obtained from your image processing. Make sure to construct your figure in the context of the WLO2 dimensions. Purpose: to gain practice presenting data visually in an accessible and information dense manner. 
 % 
 % To obtain a continuous curve of angle traversed vs. time, you would need to account for the angle crossing from 360 degrees to 0 degrees. You can use a script like the following to achieve this. In the following script, we use the knowledge that we need at least two points per cycle to accurately characterize the wheel’s motion. Your identified onset of aliasing (if your wheel is spinning fast enough) should correspond to when you see the wheel appear to spin backwards. As such, you should obtain a “negative” angular velocity at the onset of aliasing.  
-
-%setup an adjusted angle vector (for total accumulated angle)
-adjustedangle=angled; 
-for i=2:frames
-    if angled(i)<180 & angled(i-1)>180 % check for crossing from 360 to 0
-        adjustedangle(i:frames)=adjustedangle(i:frames)+360;
-    end
-    % check for >180 degree motion
-    if adjustedangle(i)-adjustedangle(i-1)>180 
-        % if so, undo the prior addition
-        adjustedangle(i:frames)=adjustedangle(i:frames)-360; 
-    end
-end
+% 
+% %setup an adjusted angle vector (for total accumulated angle)
+% adjustedangle=angled; 
+% for i=2:frames
+%     if angled(i)<180 & angled(i-1)>180 % check for crossing from 360 to 0
+%         adjustedangle(i:frames)=adjustedangle(i:frames)+360;
+%     end
+%     % check for >180 degree motion
+%     if adjustedangle(i)-adjustedangle(i-1)>180 
+%         % if so, undo the prior addition
+%         adjustedangle(i:frames)=adjustedangle(i:frames)-360; 
+%     end
+% end
