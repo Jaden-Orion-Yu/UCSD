@@ -50,6 +50,16 @@ tempMat = zeros(size(opn_C,1),size(opn_C,2));
 function [mat] = processFunc(img)
 tempVec = [0 0 0];
 tempMat = zeros(size(img,1),size(img,2)); 
-
+for i = 1:size(img,1) 
+    for j = 1:size(img,2)
+        tempvec(1)=img(i,j,1);
+        tempvec(2)=img(i,j,2);
+        tempvec(3)=img(i,j,3);
+        if norm(tempvec-rgbref) < clrdist 
+            % check if the color is within color distance
+            binary(i,j)=1; % if so, set to 1
+        end
+    end
+end
 
 end
