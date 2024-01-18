@@ -24,18 +24,17 @@ rankF =fliplr(flipud(rankF));
 %% Crop images to right size, needs to be done individually for each image
 %Example
 %opn_C = imcrop(opn,[x1,y1,x2,y2])
+%cyl_C = imcrop(cyl,[x1,y1,x2,y2])
+%rankH_C = imcrop(rankH,[x1,y1,x2,y2])
+%rankF_C = imcrop(rankF,[x1,y1,x2,y2])
 
-%% Set ref RGB *might change*
-ref = [80 140 140];
-dist = 50;
 %% Open Analysis
-tempVec = [0 0 0];
-tempMat = zeros(size(opn_C,1),size(opn_C,2)); 
 
 
 
 %% Cylinder Analysis
-
+%check if the crop is good
+[center,radius] = imfindcircles(opn_C,[300 500],'Sensitivity',0.99,'ObjectPolarity','dark')
 
 
 %% Rankine Half Analysis
@@ -48,18 +47,21 @@ tempMat = zeros(size(opn_C,1),size(opn_C,2));
 
 %% Image processing Function
 function [mat] = processFunc(img)
+ref = [80 140 140];
+dist = 50;
 tempVec = [0 0 0];
 tempMat = zeros(size(img,1),size(img,2)); 
 for i = 1:size(img,1) 
     for j = 1:size(img,2)
-        tempvec(1)=img(i,j,1);
-        tempvec(2)=img(i,j,2);
-        tempvec(3)=img(i,j,3);
-        if norm(tempvec-rgbref) < clrdist 
+        tempVec(1)=img(i,j,1);
+        tempVec(2)=img(i,j,2);
+        tempVec(3)=img(i,j,3);
+        if norm(tempVec-ref) < dist
             % check if the color is within color distance
-            binary(i,j)=1; % if so, set to 1
+            tempMat(i,j)=1; % if so, set to 1
         end
     end
 end
+mat = tempMat;
 
 end
