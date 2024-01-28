@@ -65,14 +65,14 @@ for i = 1:length(K)
    st = stepinfo(system);
    t = st.Overshoot
    if st.Overshoot <= 10 && st.RiseTime <= 0.5
-        K = K(i);
+        K = K(i)
         break
    end
 end
 
 figure(3)
 step(system)
-title('Step Response of G(s)*D(s) with K = ' + num2str(K_val))
+title('Step Response of G(s)*D(s) with K = 2.4')
 xlabel('Time (s)')
 ylabel('step response')
 grid on
