@@ -63,9 +63,9 @@ for i = 1:length(K)
    D = (K(i)*(s+3))/(s+10); 
    system = feedback(D*G3,1);
    st = stepinfo(system);
-   t = st.Overshoot
+   t = st.Overshoot;
    if st.Overshoot <= 10 && st.RiseTime <= 0.5
-        K = K(i)
+        K = K(i);
         break
    end
 end

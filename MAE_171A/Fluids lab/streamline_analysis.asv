@@ -34,7 +34,7 @@ rankF_C1 = imcrop(rankF,[200,500,2300,900]);
 opn_C2 = imcrop(opn,[1200,1020,2300,250]);
 cyl_C2 = imcrop(cyl,[800,80,2100,200]);
 rankH_C2 = imcrop(rankH,[0,1100,2100,400]);
-rankF_C2 = imcrop(rankF,[200,800,2300,600]);
+rankF_C2 = imcrop(rankF,[200,500,2300,900]);
 
 
 %% Open Analysis
@@ -111,13 +111,13 @@ plot(x_cyl,s_cyl,'or')
 %% Rankine Half Analysis
 
 rref = [7 45 82];
-
+%dist also looks interesting at 25
 dist = 110;
 
 
 rankH_bin = processFunc(rankH_C2,ref,dist);
 
-[row_rankH,col_rankH] = find(rankH_bin); 
+[row_rankH,col_rankH] = find(rankH_bin); %find the binary one whatever it ends up being.
 
 x_rankH = 1:length(rankH_bin(1,:));
 [C_rankH,ia_rankH,ic_rankH] = unique(col_rankH);
@@ -140,13 +140,13 @@ rref = [7 45 82];
 %dist also looks interesting at 25
 dist = 110;
 
-rankF_bin = processFunc(rankF_C2,ref,dist);
+rankF_bin = processFunc(rankH_C2,ref,dist);
 
 % image Checking
-figure(7)
-imshow(rankF_C2)
-figure(8)
-imshow(rankF_bin);
+% figure(5)
+% imshow(rankH_C2)
+% figure(6)
+% imshow(rankH_bin);
 
 
 
