@@ -11,6 +11,10 @@ rankH = imread('rank_H.jpg');
 
 rankF = imread('rank_F.jpg');
 
+airfoil = imread('airfoil.jpg');
+
+airfoil_tip = imread('airfoil_tip.jpg');
+
 %%Flip and reorient **Might not need, double check**
 
 opn = fliplr(flipud(fliplr(flipud(opn))));
@@ -20,7 +24,12 @@ cyl = fliplr(flipud(fliplr(flipud(cyl))));
 rankH = fliplr(flipud(fliplr(flipud(rankH))));
 
 rankF = fliplr(flipud(fliplr(flipud(rankF))));
+
+airfoil = fliplr(flipud(fliplr(flipud(airfoil))));
+
+
 %% Crop images to right size, needs to be done individually for each image
+
 %Example
 %initial crop around general area
 % [h,l] = size(opn)
@@ -28,91 +37,115 @@ opn_C1 = imcrop(opn,[1200,600,2300,1000]);
 cyl_C1 = imcrop(cyl,[800,80,2100,1500]);
 rankH_C1 = imcrop(rankH,[0,400,2100,1100]);
 rankF_C1 = imcrop(rankF,[200,500,2300,900]);
+airfoil_C1 = imcrop(airfoil,[700,100,2000,1748]);
+airfoil_tip_C1 = imcrop(airfoil_tip,[700,100,2000,1748]);
 
 
 %Crop around streamline for binary conversion
 opn_C2 = imcrop(opn,[1200,1020,2300,250]);
 cyl_C2 = imcrop(cyl,[800,80,2100,200]);
-rankH_C2 = imcrop(rankH,[0,1100,2100,400]);
+rankH_C2 = imcrop(rankH,[0,1100,2100,275]);
 rankF_C2 = imcrop(rankF,[200,800,2300,600]);
 
+%Airfoil need to do several crops
+% airfoil_C2 = imcrop(airfoil,[700,500,500,900]);
+% airfoil_tip_C2 = imcrop(airfoil_tip,[700,300,2300,900]);
+%position vectors are [x1 y1 change in x change in y]
 
+%older 3 and 4
+pos3_af = [1500 600 500 500];
+pos4_af = [1700 1100 300 600];
+
+pos1_af = [700 450 300 200];
+pos2_af = [1000 350 500 250];
+pos3_af = [1500 600 250 250];
+pos4_af = [1600 850 250 250];
+pos5_af = [1700 1100 250 250];
+
+
+posMat_af = [ pos1_af; pos2_af; pos3_af ;pos4_af ; pos5_af];
+
+airfoil_C2 = imcrop(airfoil,pos1_af);
+airfoil_C3 = imcrop(airfoil,pos2_af);
+airfoil_C4 = imcrop(airfoil,pos3_af);
+airfoil_C5 = imcrop(airfoil,pos4_af);
+airfoil_C6 = imcrop(airfoil,pos5_af);
 %% Open Analysis
 
-
-ref = [7 45 82];
-%dist also looks interesting at 25
-dist = 25;
-
-opn_bin = processFunc(opn_C2,ref,dist); % Binary'd the cropped picture
-
-[row_opn,col_opn] = find(opn_bin); %find the binary one whatever it ends up being.
-
-x_opn = 1:length(opn_bin(1,:));
-[C_opn,ia_opn,ic_opn] = unique(col_opn);
-unqrow_opn = row_opn(ia_opn);
-unqcol_opn = col_opn(ia_opn);
-
-s_opn = spline(unqcol_opn, unqrow_opn,x_opn); % fit a spline
-s2_opn = s_opn + 490; % compensate for 2nd crop
-s_smooth_opn=smooth(s2_opn,100); % smooth the spline
-
-figure(1)
-imshow(opn_C1)
-hold on
-plot(x_opn,s2_opn,'or')
-hold on
-plot(x_opn,s_smooth_opn,'.b')
+% 
+% ref = [7 45 82];
+% %dist also looks interesting at 25
+% dist = 25;
+% 
+% opn_bin = processFunc(opn_C2,ref,dist); % Binary'd the cropped picture
+% 
+% [row_opn,col_opn] = find(opn_bin); %find the binary one whatever it ends up being.
+% 
+% x_opn = 1:length(opn_bin(1,:));
+% [C_opn,ia_opn,ic_opn] = unique(col_opn);
+% unqrow_opn = row_opn(ia_opn);
+% unqcol_opn = col_opn(ia_opn);
+% 
+% s_opn = spline(unqcol_opn, unqrow_opn,x_opn); % fit a spline
+% s2_opn = s_opn + 490; % compensate for 2nd crop
+% s_smooth_opn=smooth(s2_opn,100); % smooth the spline
+% 
+% figure(1)
+% imshow(opn_C1)
+% hold on
+% plot(x_opn,s2_opn,'or')
+% hold on
+% plot(x_opn,s_smooth_opn,'.b')
 
 
 %repeat for other ones. 
 %% Cylinder Analysis
 %check if the crop is good
-
-ref = [7 30 180];
-%dist also looks interesting at 25
-dist = 85;
-
-[centers,radii] = imfindcircles(cyl_C1,[300 600],'Sensitivity',0.991,'ObjectPolarity','dark');
-
-cyl_bin = processFunc(cyl_C2,ref,dist);
-
-[row_cyl,col_cyl] = find(cyl_bin); %find the binary one whatever it ends up being.
-
-x_cyl = 1:length(cyl_bin(1,:));
-[C_cyl,ia_cyl,ic_cyl] = unique(col_cyl);
-unqrow_cyl = row_cyl(ia_cyl);
-unqcol_cyl = col_cyl(ia_cyl);
-
-s_cyl = spline(unqcol_cyl, unqrow_cyl,x_cyl); % fit a spline
-s2_cyl = s_cyl +0; % compensate for 2nd crop
-s_smooth_cyl=smooth(s2_cyl,100); % smooth the spline
-
-
-
-figure(2)
-imshow(cyl_C1)
-hold on
-viscircles(centers,radii);
-plot(centers(1),centers(2),'xr','MarkerSize',20,'LineWidth',3);
-hold on
-plot(x_cyl,s2_cyl,'or')
-hold on
-plot(x_cyl,s_smooth_cyl,'.b')
-
-figure(3)
-imshow(cyl_bin)
-hold on
-plot(x_cyl,s_cyl,'or')
-
-
+% 
+% ref = [7 30 180];
+% %dist also looks interesting at 25
+% dist = 85;
+% 
+% [centers,radii] = imfindcircles(cyl_C1,[300 600],'Sensitivity',0.991,'ObjectPolarity','dark');
+% 
+% cyl_bin = processFunc(cyl_C2,ref,dist);
+% 
+% [row_cyl,col_cyl] = find(cyl_bin); %find the binary one whatever it ends up being.
+% 
+% x_cyl = 1:length(cyl_bin(1,:));
+% [C_cyl,ia_cyl,ic_cyl] = unique(col_cyl);
+% unqrow_cyl = row_cyl(ia_cyl);
+% unqcol_cyl = col_cyl(ia_cyl);
+% 
+% s_cyl = spline(unqcol_cyl, unqrow_cyl,x_cyl); % fit a spline
+% s2_cyl = s_cyl +0; % compensate for 2nd crop
+% s_smooth_cyl=smooth(s2_cyl,100); % smooth the spline
+% 
+% 
+% 
+% figure(2)
+% imshow(cyl_C1)
+% hold on
+% viscircles(centers,radii);
+% plot(centers(1),centers(2),'xr','MarkerSize',20,'LineWidth',3);
+% hold on
+% plot(x_cyl,s2_cyl,'or')
+% hold on
+% plot(x_cyl,s_smooth_cyl,'.b')
+% 
+% figure(3)
+% imshow(cyl_bin)
+% hold on
+% plot(x_cyl,s_cyl,'or')
+% 
+% 
 
 
 %% Rankine Half Analysis
+%focusing on airfoil first
+ref = [7 140 151];
 
-rref = [7 45 82];
-
-dist = 110;
+dist = 60;
 
 
 rankH_bin = processFunc(rankH_C2,ref,dist);
@@ -136,18 +169,117 @@ hold on
 plot(x_rankH,s_smooth_rankH,'.b')
 
 %% Rankine Full Analysis
-rref = [7 45 82];
-%dist also looks interesting at 25
-dist = 110;
+% rref = [7 45 82];
+% %dist also looks interesting at 25
+% dist = 110;
+% 
+% rankF_bin = processFunc(rankF_C2,ref,dist);
+% 
+% % image Checking
+% figure(7)
+% imshow(rankF_C2)
+% figure(8)
+% imshow(rankF_bin);
+% 
+% 
 
-rankF_bin = processFunc(rankF_C2,ref,dist);
+%% Airfoil full analysis
+%  ref = [7 45 82];
+% %dist also looks interesting at 25
+%  dist = 37;
+% 
+% %original single crop method
+% 
+% % airfoil_bin = processFunc(airfoil_C1,ref,dist);
+% % 
+% % [row_airfoil,col_airfoil] = find(airfoil_bin); 
+% % 
+% % x_airfoil = 1:length(airfoil_bin(1,:));
+% % [C_airfoil,ia_airfoil,ic_airfoil] = unique(col_airfoil);
+% % unqrow_airfoil = row_airfoil(ia_airfoil);
+% % unqcol_airfoil = col_airfoil(ia_airfoil);
+% 
+% %individual crop method
+% 
+% %doing the C2 crop
+% airfoil_bin1 = processFunc(airfoil_C2,ref,dist);
+% %doing the C3 crop
+% airfoil_bin2 = processFunc(airfoil_C3,ref,dist);
+% %doing the C4 crop
+% airfoil_bin3 = processFunc(airfoil_C4,ref,dist);
+% %doing the C5 crop
+% airfoil_bin4 = processFunc(airfoil_C5,ref,dist);
+% %doing the C6 crop
+% airfoil_bin5 = processFunc(airfoil_C6,ref,dist);
+% 
+% %new idea, combine the binary arrays
+% airfoil_bin = zeros(2404,1404);
+% 
+% posEditMat_af = posEdit(posMat_af);
+% 
+% airfoil_bin(posEditMat_af(1,2):posEditMat_af(1,4),posEditMat_af(1,1):posEditMat_af(1,3) ) = airfoil_bin1;
+% airfoil_bin(posEditMat_af(2,2):posEditMat_af(2,4),posEditMat_af(2,1):posEditMat_af(2,3) ) = airfoil_bin2;
+% airfoil_bin(posEditMat_af(3,2):posEditMat_af(3,4),posEditMat_af(3,1):posEditMat_af(3,3) ) = airfoil_bin3;
+% airfoil_bin(posEditMat_af(4,2):posEditMat_af(4,4),posEditMat_af(4,1):posEditMat_af(4,3) ) = airfoil_bin4;
+% airfoil_bin(posEditMat_af(5,2):posEditMat_af(5,4),posEditMat_af(5,1):posEditMat_af(5,3) ) = airfoil_bin5;
+% 
+% [row_airfoil,col_airfoil] = find(airfoil_bin);
+% 
+% figure(1)
+% imshow(airfoil_bin)
+% 
+% % figure(1)
+% % subplot(2,2,1)
+% % imshow(airfoil_bin1)
+% % subplot(2,2,2)
+% % imshow(airfoil_bin2)
+% % subplot(2,2,3)
+% % imshow(airfoil_bin3)
+% % subplot(2,2,4)
+% % imshow(airfoil_bin4)
+% % 
+% % [row_airfoil1,col_airfoil1] = find(airfoil_bin1);
+% % [row_airfoil2,col_airfoil2] = find(airfoil_bin2);
+% % [row_airfoil3,col_airfoil3] = find(airfoil_bin3);
+% % [row_airfoil4,col_airfoil4] = find(airfoil_bin4);
+% 
+% x_airfoil = 1:length(airfoil_bin(1,:));
+% % 
+% % [C_airfoil1,ia_airfoil1,ic_airfoil1] = unique(col_airfoil1);
+% % unqrow_airfoil1 = row_airfoil1(ia_airfoil1);
+% % unqcol_airfoil1 = col_airfoil1(ia_airfoil1);
+% % [C_airfoil2,ia_airfoil2,ic_airfoil2] = unique(col_airfoil2);
+% % unqrow_airfoil2 = row_airfoil2(ia_airfoil2);
+% % unqcol_airfoil2 = col_airfoil2(ia_airfoil2);
+% % [C_airfoil3,ia_airfoil3,ic_airfoil3] = unique(col_airfoil3);
+% % unqrow_airfoil3 = row_airfoil3(ia_airfoil3);
+% % unqcol_airfoil3 = col_airfoil3(ia_airfoil3);
+% % [C_airfoil4,ia_airfoil4,ic_airfoil4] = unique(col_airfoil4);
+% % unqrow_airfoil4 = row_airfoil4(ia_airfoil4);
+% % unqcol_airfoil4 = col_airfoil4(ia_airfoil4);
+% % 
+% % 
+% % unqcol_airfoil = [ unqcol_airfoil1; (unqcol_airfoil2 + 300) ; (unqcol_airfoil3 + 500) ;(unqcol_airfoil4 + 500) ];
+% % unqrow_airfoil = [ unqrow_airfoil1; (unqrow_airfoil2 + 0) ; (unqrow_airfoil3 + 0) ;(unqrow_airfoil4 + 0) ];
+% 
+% 
+% [C_airfoil,ia_airfoil,ic_airfoil] = unique(col_airfoil);
+% unqrow_airfoil = row_airfoil(ia_airfoil);
+% unqcol_airfoil = col_airfoil(ia_airfoil);
+% 
+% s_airfoil = spline(unqcol_airfoil, unqrow_airfoil,x_airfoil); % fit a spline
+% s2_airfoil = s_airfoil; % compensate for 2nd crop
+% s_smooth_airfoil =smooth(s2_airfoil,100); % smooth the spldine
+% 
+% 
+% figure(6)
+% imshow(airfoil_bin)
+% hold on
+% plot(x_airfoil,s2_airfoil,'or')
+% hold on
+% plot(x_airfoil,s_smooth_airfoil,'.b')
 
-% image Checking
-figure(7)
-imshow(rankF_C2)
-figure(8)
-imshow(rankF_bin);
-
+%% airfoil + tip full analysis
 
 
 
@@ -169,4 +301,24 @@ for i = 1:size(img,1)
 end
 mat = tempMat;
 
+end
+
+%% pos array editing
+function [posEditMat] = posEdit(posMat)
+posEditMat = posMat;
+minX = min(posEditMat(:,1));
+minY = min(posEditMat(:,2));
+posEditMat(:,1) = posEditMat(:,1) - minX;
+posEditMat(:,2) = posEditMat(:,2) - minY;
+for i = 1:length(posMat(:,1))
+    if posEditMat(i,1) == 0
+        posEditMat(i,1) = 1;
+    end
+    if posEditMat(i,2) == 0
+       posEditMat(i,2) = 1; 
+    end
+    %output posEditMat(i) = [x1 y1 x2 y2]
+    posEditMat(i,3) = posEditMat(i,1) + posEditMat(i,3);
+    posEditMat(i,4) = posEditMat(i,2) + posEditMat(i,4);
+end
 end
