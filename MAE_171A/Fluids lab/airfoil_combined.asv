@@ -1,18 +1,80 @@
+clear;
 clc;
 close all;
-clear;
 
- ref = [20 126 143];
-%dist also looks interesting at 25
- dist = 90;
+%% Setting vars
 
+ref1 = [7 45 82];
+dist1 = 45;
+
+ref2 = [20 126 143];
+dist2 = 90;
 
 aft = imread('airfoil_tip.jpg');
+af = imread('airfoil.jpg');
+af = fliplr(flipud(fliplr(flipud(af))));
 
 
+af_C1 = imcrop(af,[500,350,2000,2000]);
+af_C = imcrop(af,[0,0,2500,2350]);
+
+%% airfoil analysis
+
+pos1_af = [500 500 450 200];
+pos2_af = [950 360 100 240];
+pos3_af = [1050 350 250 150];
+pos4_af = [1300 400 100 150];
+pos5_af = [1400 480 50 120];
+pos6_af = [1450 520 50 110];
+pos7_af = [1500 550 60 150];
+pos8_af = [1560 640 70 120];
+pos9_af = [1630 700 40 120];
+pos10_af = [1670 770 50 200];
+pos11_af = [1720 800 50 200];
+pos12_af = [1770 880 50 200];
+pos13_af = [1820 920 50 200];
+pos14_af = [1870 990 80 200];
+pos15_af = [1920 1100 80 200];
+pos16_af = [1970 1200 80 200];
+pos17_af = [2020 1300 80 200];
+
+
+posMat_af = [ pos1_af; pos2_af; pos3_af ;pos4_af ; pos5_af;
+    pos6_af; pos7_af; pos8_af ;pos9_af ; pos10_af;
+    pos11_af; pos12_af; pos13_af;pos14_af; pos15_af; pos16_af ;pos17_af];
+
+af_bin = zeros(1504,2104);
+posEditMat_af = posEdit(posMat_af);
+af_bin = pos2bin(af,posMat_af,posEditMat_af,af_bin,ref1,dist1);
+[row_af,col_af] = find(af_bin);
+
+x_af = 1:length(af_bin(1,:));
+
+figure(1)
+imshow(af_bin)
+[C_af,ia_af,ic_af] = unique(col_af);
+unqrow_af = row_af(ia_af);
+unqcol_af = col_af(ia_af);
+
+s_af = spline(unqcol_af, unqrow_af,x_af); % fit a spline
+s2_af = s_af; % compensate for 2nd crop
+s_smooth_af =smooth(s2_af,100); % smooth the spldine
+
+
+figure(2)
+imshow(af_C1)
+hold on
+plot(x_af,s2_af,'or')
+hold on
+plot(x_af,s_smooth_af,'.b')
+
+
+%% airfoil with leading edge analysis
 
 %aft_C1 = imcrop(aft,[670,100,2000,2000]);
 aft_C1 = imcrop(aft,[570,270,2000,2000]);
+aft_C = imcrop(aft,[0,0,2570,2270]);
+
 pos1_aft = [570 500 430 120];
 pos2_aft = [1000 430 130 170];
 pos3_aft = [1130 270 250 200];
@@ -53,105 +115,13 @@ posMat_aft = [ pos1_aft; pos2_aft; pos3_aft ;pos4_aft ; pos5_aft;
     pos11_aft ; pos12_aft; pos13_aft; pos14_aft ; pos15_aft;pos16_aft;pos17_aft;pos18_aft;pos19_aft;
     pos20_aft;pos21_aft;pos22_aft;pos23_aft;pos24_aft;pos25_aft;pos26_aft;pos27_aft;pos28_aft;pos29_aft;pos30_aft;
     pos31_aft;pos32_aft;pos33_aft;pos34_aft];
-
-% Higher streamline
-% pos1_aft = [670 180 240 80];
-% pos2_aft = [910 110 120 40];
-% pos3_aft = [1000 100 250 100];
-% pos4_aft = [1250 100 250 160];
-% pos5_aft = [1500 200 200 200];
-% pos6_aft = [1600 300 400 200];
-% pos7_aft = [1700 450 400 200];
-% pos8_aft = [1800 640 400 200];
-% pos9_aft = [1900 700 400 200];
-% pos10_aft = [2000 800 400 200];
-% pos11_aft = [2100 800 400 200];
-
-
-% %Position calcs pre- automation
-% aft_C2 = imcrop(aft,pos1_aft);
-% aft_C3 = imcrop(aft,pos2_aft);
-% aft_C4 = imcrop(aft,pos3_aft);
-% aft_C5 = imcrop(aft,pos4_aft);
-% aft_C6 = imcrop(aft,pos5_aft);
-% aft_C7 = imcrop(aft,pos6_aft);
-% aft_C8 = imcrop(aft,pos7_aft);
-% aft_C9 = imcrop(aft,pos8_aft);
-% aft_C10 = imcrop(aft,pos9_aft);
-% aft_C11 = imcrop(aft,pos10_aft);
-% aft_C12 = imcrop(aft,pos11_aft);
-% aft_C13 = imcrop(aft,pos12_aft);
-% aft_C14 = imcrop(aft,pos13_aft);
-% aft_C15 = imcrop(aft,pos14_aft);
-% aft_C16 = imcrop(aft,pos15_aft);
-% aft_C17 = imcrop(aft,pos16_aft);
-% aft_C18 = imcrop(aft,pos17_aft);
-% aft_C19 = imcrop(aft,pos18_aft);
-% aft_C20 = imcrop(aft,pos19_aft);
-
-
-
-% %doing the C2 crop
-% aft_bin1 = processFunc(aft_C2,ref,dist);
-% %doing the C3 crop
-% aft_bin2 = processFunc(aft_C3,ref,dist);
-% %doing the C4 crop
-% aft_bin3 = processFunc(aft_C4,ref,dist);
-% %doing the C5 crop
-% aft_bin4 = processFunc(aft_C5,ref,dist);
-% %doing the C6 crop
-% aft_bin5 = processFunc(aft_C6,ref,dist);
-% 
-% aft_bin6 = processFunc(aft_C7,ref,dist);
-% 
-% aft_bin7 = processFunc(aft_C8,ref,dist);
-% 
-% aft_bin8 = processFunc(aft_C9,ref,dist);
-% 
-% aft_bin9 = processFunc(aft_C10,ref,dist);
-% 
-% aft_bin10 = processFunc(aft_C11,ref,dist);
-% 
-% aft_bin11 = processFunc(aft_C12,ref,dist);
-% 
-% aft_bin12 = processFunc(aft_C13,ref,dist);
-% 
-% aft_bin13 = processFunc(aft_C14,ref,dist);
-% aft_bin14 = processFunc(aft_C15,ref,dist);
-% 
-% 
-
-% 
-% posEditMat_af = posEdit(posMat_af);
-
-% aft_bin(posEditMat_af(1,2):posEditMat_af(1,4),posEditMat_af(1,1):posEditMat_af(1,3) ) = aft_bin1;
-% aft_bin(posEditMat_af(2,2):posEditMat_af(2,4),posEditMat_af(2,1):posEditMat_af(2,3) ) = aft_bin2;
-% aft_bin(posEditMat_af(3,2):posEditMat_af(3,4),posEditMat_af(3,1):posEditMat_af(3,3) ) = aft_bin3;
-% aft_bin(posEditMat_af(4,2):posEditMat_af(4,4),posEditMat_af(4,1):posEditMat_af(4,3) ) = aft_bin4;
-% aft_bin(posEditMat_af(5,2):posEditMat_af(5,4),posEditMat_af(5,1):posEditMat_af(5,3) ) = aft_bin5;
-% aft_bin(posEditMat_af(6,2):posEditMat_af(6,4),posEditMat_af(6,1):posEditMat_af(6,3) ) = aft_bin6;
-% aft_bin(posEditMat_af(7,2):posEditMat_af(7,4),posEditMat_af(7,1):posEditMat_af(7,3) ) = aft_bin7;
-% aft_bin(posEditMat_af(8,2):posEditMat_af(8,4),posEditMat_af(8,1):posEditMat_af(8,3) ) = aft_bin8;
-% aft_bin(posEditMat_af(9,2):posEditMat_af(9,4),posEditMat_af(9,1):posEditMat_af(9,3) ) = aft_bin9;
-% aft_bin(posEditMat_af(10,2):posEditMat_af(10,4),posEditMat_af(10,1):posEditMat_af(10,3) ) = aft_bin10;
-% aft_bin(posEditMat_af(11,2):posEditMat_af(11,4),posEditMat_af(11,1):posEditMat_af(11,3) ) = aft_bin11;
-% aft_bin(posEditMat_af(12,2):posEditMat_af(12,4),posEditMat_af(12,1):posEditMat_af(12,3) ) = aft_bin12;
-% aft_bin(posEditMat_af(13,2):posEditMat_af(13,4),posEditMat_af(13,1):posEditMat_af(13,3) ) = aft_bin13;
-% aft_bin(posEditMat_af(14,2):posEditMat_af(14,4),posEditMat_af(14,1):posEditMat_af(14,3) ) = aft_bin14;
-
-
- 
 posEdit_aft = posEdit(posMat_aft);
-
 aft_bin = zeros(1504,2104);
-
-aft_bin = pos2bin(aft,posMat_aft,posEdit_aft,aft_bin,ref,dist);
-
+aft_bin = pos2bin(aft,posMat_aft,posEdit_aft,aft_bin,ref2,dist2);
 [row_aft,col_aft] = find(aft_bin);
-
 x_aft = 1:length(aft_bin(1,:));
 
-figure(1)
+figure(3)
 imshow(aft_bin)
 [C_aft,ia_aft,ic_aft] = unique(col_aft);
 unqrow_aft = row_aft(ia_aft);
@@ -162,12 +132,82 @@ s2_aft = s_aft; % compensate for 2nd crop
 s_smooth_aft =smooth(s2_aft,100); % smooth the spldine
 
 
-figure(6)
+figure(4)
 imshow(aft_C1)
 hold on
 plot(x_aft,s2_aft,'or')
 hold on
 plot(x_aft,s_smooth_aft,'.b')
+
+
+
+%% streamline Comparison
+
+p2i_af_x = 1/(576 - 463);
+p2i_aft_x= 1/(703 - 590);
+
+p2i_af_y = 1/(576 - 463);
+p2i_aft_y= 1/(703 - 590);
+
+
+af_x = (1549 - 577);
+af_y = (1277-17);
+
+aft_x = (1643-614);
+aft_y = (1309-9);
+
+aft2af_x = af_x/aft_x; 
+af2aft_x = aft_x/af_x;
+
+aft2af_y = af_y/aft_y;
+af2aft_y = aft_y/af_y;
+
+
+figure(5)
+imshow(aft_C)
+hold on
+plot(x_af.*(af2aft_x) + 570 ,s_smooth_af.*af2aft_y - 9 + 270,'r','LineWidth',2)
+hold on
+plot(x_aft + 570,s_smooth_aft + 270,'g','LineWidth',2)
+title('comparison of streamlines on airfoil with tip')
+legend('without leading edge','with leading edge')
+impixelinfo
+
+figure(6)
+imshow(af_C)
+hold on
+plot(x_af + 500,s_smooth_af + 350,'r','LineWidth',2)
+hold on
+plot(x_aft.*aft2af_x + 500,s_smooth_aft.*aft2af_y + 350,'g','LineWidth',2)
+title('comparison of streamlines on normal airfoil')
+legend('without leading edge','with leading edge')
+impixelinfo
+
+
+%normalizing to aft
+figure(7)
+plot(x_af*p2i_aft_x,((s_smooth_af.*af2aft_y)./s_smooth_aft).*p2i_aft_y)
+xlabel('X position (in)')
+ylabel('Y position (in)')
+grid on;
+
+%% boundary layer thickness analysis
+
+x_af_bl = [1092 1148 1203 1258 1312 1370 1421 1474 1527 1580 1643 1690 1743 1800 1852 1908 1962 2019 2046];
+yt_af_bl = [354 351 357 376 399 435 476 516 569 618 673 731 786 847 922 1020 1106 1199  1247];
+yb_af_bl = [371 374 393 422 455 496 537 587 631 690 747 815 881 954 1040 1142 1270 1459 1629];
+
+figure(8)
+imshow(af_C)
+hold on
+plot(x_af_bl,yt_af_bl,'y' )
+hold on
+plot(x_af_bl,yt_af_bl)
+
+x_aft_bl = [];
+yt_aft_bl = [];
+yb_aft_bl = [];
+
 
 %% Image processing Function
 function [mat] = processFunc(img,ref,dist)
@@ -188,6 +228,8 @@ end
 mat = tempMat;
 
 end
+
+
 
 %% pos array editing
 function [posEditMat] = posEdit(posMat)

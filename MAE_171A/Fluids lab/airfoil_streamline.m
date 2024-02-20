@@ -129,7 +129,7 @@ s2_airfoil = s_airfoil; % compensate for 2nd crop
 s_smooth_airfoil =smooth(s2_airfoil,100); % smooth the spldine
 
 
-figure(6)
+figure(8)
 imshow(airfoil_C1)
 hold on
 plot(x_airfoil,s2_airfoil,'or')
