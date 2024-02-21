@@ -53,23 +53,23 @@ rankF_C2 = imcrop(rankF,[200,800,2300,600]);
 %position vectors are [x1 y1 change in x change in y]
 
 %older 3 and 4
-pos3_af = [1500 600 500 500];
-pos4_af = [1700 1100 300 600];
+% pos3_af = [1500 600 500 500];
+% pos4_af = [1700 1100 300 600];
+% 
+% pos1_af = [700 450 300 200];
+% pos2_af = [1000 350 500 250];
+% pos3_af = [1500 600 250 250];
+% pos4_af = [1600 850 250 250];
+% pos5_af = [1700 1100 250 250];
 
-pos1_af = [700 450 300 200];
-pos2_af = [1000 350 500 250];
-pos3_af = [1500 600 250 250];
-pos4_af = [1600 850 250 250];
-pos5_af = [1700 1100 250 250];
 
-
-posMat_af = [ pos1_af; pos2_af; pos3_af ;pos4_af ; pos5_af];
-
-airfoil_C2 = imcrop(airfoil,pos1_af);
-airfoil_C3 = imcrop(airfoil,pos2_af);
-airfoil_C4 = imcrop(airfoil,pos3_af);
-airfoil_C5 = imcrop(airfoil,pos4_af);
-airfoil_C6 = imcrop(airfoil,pos5_af);
+% posMat_af = [ pos1_af; pos2_af; pos3_af ;pos4_af ; pos5_af];
+% 
+% airfoil_C2 = imcrop(airfoil,pos1_af);
+% airfoil_C3 = imcrop(airfoil,pos2_af);
+% airfoil_C4 = imcrop(airfoil,pos3_af);
+% airfoil_C5 = imcrop(airfoil,pos4_af);
+% airfoil_C6 = imcrop(airfoil,pos5_af);
 %% Open Analysis
 
 % 
@@ -168,6 +168,29 @@ plot(x_rankH,s2_rankH,'or')
 hold on
 plot(x_rankH,s_smooth_rankH,'.b')
 
+s_loc = [767 948];%pixels, [x y]
+p2i_rh = 1/(1038-840);
+i2p_rh = (1038-840);
+V = 0.0173; %m/s
+V = V*(25.4);
+s_strength =  8; %gph
+r_stag = (0.075/1000)*25.4; %in
+
+%rankH_C1 = imcrop(rankH,[0,400,2100,1100]);
+
+figure(7)
+imshow(rankH_C1)
+hold on
+plot(x_rankH,s_smooth_rankH,'g', 'LineWidth',2)
+hold on
+plot(s_loc(1),s_loc(2) - 400,'or','MarkerSize', 20)
+hold on
+plot(s_loc(1) - r_stag*i2p_rh, s_loc(2) - 400,'*r','MarkerSize', 20)
+legend('experimentally determined streamline','source','Mathermatically determined stagnation point')
+% all units are now in in and in/s
+
+
+
 %% Rankine Full Analysis
 % rref = [7 45 82];
 % %dist also looks interesting at 25
@@ -182,106 +205,6 @@ plot(x_rankH,s_smooth_rankH,'.b')
 % imshow(rankF_bin);
 % 
 % 
-
-%% Airfoil full analysis
-%  ref = [7 45 82];
-% %dist also looks interesting at 25
-%  dist = 37;
-% 
-% %original single crop method
-% 
-% % airfoil_bin = processFunc(airfoil_C1,ref,dist);
-% % 
-% % [row_airfoil,col_airfoil] = find(airfoil_bin); 
-% % 
-% % x_airfoil = 1:length(airfoil_bin(1,:));
-% % [C_airfoil,ia_airfoil,ic_airfoil] = unique(col_airfoil);
-% % unqrow_airfoil = row_airfoil(ia_airfoil);
-% % unqcol_airfoil = col_airfoil(ia_airfoil);
-% 
-% %individual crop method
-% 
-% %doing the C2 crop
-% airfoil_bin1 = processFunc(airfoil_C2,ref,dist);
-% %doing the C3 crop
-% airfoil_bin2 = processFunc(airfoil_C3,ref,dist);
-% %doing the C4 crop
-% airfoil_bin3 = processFunc(airfoil_C4,ref,dist);
-% %doing the C5 crop
-% airfoil_bin4 = processFunc(airfoil_C5,ref,dist);
-% %doing the C6 crop
-% airfoil_bin5 = processFunc(airfoil_C6,ref,dist);
-% 
-% %new idea, combine the binary arrays
-% airfoil_bin = zeros(2404,1404);
-% 
-% posEditMat_af = posEdit(posMat_af);
-% 
-% airfoil_bin(posEditMat_af(1,2):posEditMat_af(1,4),posEditMat_af(1,1):posEditMat_af(1,3) ) = airfoil_bin1;
-% airfoil_bin(posEditMat_af(2,2):posEditMat_af(2,4),posEditMat_af(2,1):posEditMat_af(2,3) ) = airfoil_bin2;
-% airfoil_bin(posEditMat_af(3,2):posEditMat_af(3,4),posEditMat_af(3,1):posEditMat_af(3,3) ) = airfoil_bin3;
-% airfoil_bin(posEditMat_af(4,2):posEditMat_af(4,4),posEditMat_af(4,1):posEditMat_af(4,3) ) = airfoil_bin4;
-% airfoil_bin(posEditMat_af(5,2):posEditMat_af(5,4),posEditMat_af(5,1):posEditMat_af(5,3) ) = airfoil_bin5;
-% 
-% [row_airfoil,col_airfoil] = find(airfoil_bin);
-% 
-% figure(1)
-% imshow(airfoil_bin)
-% 
-% % figure(1)
-% % subplot(2,2,1)
-% % imshow(airfoil_bin1)
-% % subplot(2,2,2)
-% % imshow(airfoil_bin2)
-% % subplot(2,2,3)
-% % imshow(airfoil_bin3)
-% % subplot(2,2,4)
-% % imshow(airfoil_bin4)
-% % 
-% % [row_airfoil1,col_airfoil1] = find(airfoil_bin1);
-% % [row_airfoil2,col_airfoil2] = find(airfoil_bin2);
-% % [row_airfoil3,col_airfoil3] = find(airfoil_bin3);
-% % [row_airfoil4,col_airfoil4] = find(airfoil_bin4);
-% 
-% x_airfoil = 1:length(airfoil_bin(1,:));
-% % 
-% % [C_airfoil1,ia_airfoil1,ic_airfoil1] = unique(col_airfoil1);
-% % unqrow_airfoil1 = row_airfoil1(ia_airfoil1);
-% % unqcol_airfoil1 = col_airfoil1(ia_airfoil1);
-% % [C_airfoil2,ia_airfoil2,ic_airfoil2] = unique(col_airfoil2);
-% % unqrow_airfoil2 = row_airfoil2(ia_airfoil2);
-% % unqcol_airfoil2 = col_airfoil2(ia_airfoil2);
-% % [C_airfoil3,ia_airfoil3,ic_airfoil3] = unique(col_airfoil3);
-% % unqrow_airfoil3 = row_airfoil3(ia_airfoil3);
-% % unqcol_airfoil3 = col_airfoil3(ia_airfoil3);
-% % [C_airfoil4,ia_airfoil4,ic_airfoil4] = unique(col_airfoil4);
-% % unqrow_airfoil4 = row_airfoil4(ia_airfoil4);
-% % unqcol_airfoil4 = col_airfoil4(ia_airfoil4);
-% % 
-% % 
-% % unqcol_airfoil = [ unqcol_airfoil1; (unqcol_airfoil2 + 300) ; (unqcol_airfoil3 + 500) ;(unqcol_airfoil4 + 500) ];
-% % unqrow_airfoil = [ unqrow_airfoil1; (unqrow_airfoil2 + 0) ; (unqrow_airfoil3 + 0) ;(unqrow_airfoil4 + 0) ];
-% 
-% 
-% [C_airfoil,ia_airfoil,ic_airfoil] = unique(col_airfoil);
-% unqrow_airfoil = row_airfoil(ia_airfoil);
-% unqcol_airfoil = col_airfoil(ia_airfoil);
-% 
-% s_airfoil = spline(unqcol_airfoil, unqrow_airfoil,x_airfoil); % fit a spline
-% s2_airfoil = s_airfoil; % compensate for 2nd crop
-% s_smooth_airfoil =smooth(s2_airfoil,100); % smooth the spldine
-% 
-% 
-% figure(6)
-% imshow(airfoil_bin)
-% hold on
-% plot(x_airfoil,s2_airfoil,'or')
-% hold on
-% plot(x_airfoil,s_smooth_airfoil,'.b')
-
-%% airfoil + tip full analysis
-
-
 
 %% Image processing Function
 function [mat] = processFunc(img,ref,dist)

@@ -193,20 +193,73 @@ grid on;
 
 %% boundary layer thickness analysis
 
-x_af_bl = [1092 1148 1203 1258 1312 1370 1421 1474 1527 1580 1643 1690 1743 1800 1852 1908 1962 2019 2046];
-yt_af_bl = [354 351 357 376 399 435 476 516 569 618 673 731 786 847 922 1020 1106 1199  1247];
-yb_af_bl = [371 374 393 422 455 496 537 587 631 690 747 815 881 954 1040 1142 1270 1459 1629];
+x_af_bl = [1074 1092 1148 1203 1258 1312 1370 1421 1474 1527 1580 1643 1690 1743 1800 1852 1908 1962 2019 2046 2074];
+yt_af_bl = [359 354 351 357 376 399 435 476 516 569 618 673 731 786 847 922 1020 1106 1199  1247 1245];
+yb_af_bl = [392 371 374 393 422 455 496 537 587 631 690 747 815 881 954 1040 1142 1270 1459 1629 1640];
 
 figure(8)
 imshow(af_C)
 hold on
-plot(x_af_bl,yt_af_bl,'y' )
+plot(x_af_bl,yt_af_bl,'y.', 'LineWidth',2 )
 hold on
-plot(x_af_bl,yt_af_bl)
+plot(x_af_bl,yb_af_bl,'c.', 'LineWidth',2)
+legend('top of boundary layer','bottom of boundary layer')
 
-x_aft_bl = [];
-yt_aft_bl = [];
-yb_aft_bl = [];
+figure(9)
+plot(x_af_bl.*p2i_af_x, yt_af_bl.*p2i_af_y)
+hold on
+plot(x_af_bl.*p2i_af_x, yb_af_bl.*p2i_af_y)
+legend('top of boundary layer','bottom of boundary layer')
+xlabel('X distance on grid (in)')
+ylabel('Y position on grid (in)')
+grid on
+title('Boundary Layer Position of Airfoil Without Leading Edge')
+
+x_aft_bl = [1183 1200 1253 1306 1362 1418 1474 1524 1581 1632 1686 1741 1800 1852 1910 1965 2015 2082 2132 2203 2213];
+yt_aft_bl = [226 224 254 284 307 331 363 402 422 490 539 596 657 717 781 854 923 1032 1130 1260 1276];
+yb_aft_bl = [301 278 282 300 322 350 382 422 464 511 569 626 690 754 819 904 989 1120 1259 1505 1575];
+
+figure(10)
+imshow(aft_C)
+hold on
+plot(x_aft_bl,yt_aft_bl,'y.', 'LineWidth',2 )
+hold on
+plot(x_aft_bl,yb_aft_bl,'c.', 'LineWidth',2)
+legend('top of boundary layer','bottom of boundary layer')
+impixelinfo
+
+figure(11)
+plot(x_aft_bl.*p2i_aft_x, yt_aft_bl.*p2i_aft_y)
+hold on
+plot(x_aft_bl.*p2i_aft_x, yb_aft_bl.*p2i_aft_y)
+legend('top of boundary layer','bottom of boundary layer')
+xlabel('X distance on grid (in)')
+ylabel('Y position on grid (in)')
+grid on
+title('Boundary Layer Position of Airfoil With Leading Edge')
+
+figure(12)
+plot(x_af_bl.*p2i_af_x, (yb_af_bl.*p2i_af_y) - (yt_af_bl.*p2i_af_y))
+hold on
+plot(x_aft_bl.*p2i_aft_x, (yb_aft_bl.*p2i_aft_y) - (yt_aft_bl.*p2i_aft_y))
+legend('top of boundary layer','bottom of boundary layer')
+xlabel('X distance on grid (in)')
+ylabel('Y position on grid (in)')
+legend('airfoil without leading edge','airfoil with leading edge')
+grid on
+title('Boundary Layer Position of each airfoil')
+
+
+figure(13)
+plot(x_aft_bl.*p2i_aft_x, ((yb_af_bl.*p2i_af_y) - (yt_af_bl.*p2i_af_y)) - ((yb_aft_bl.*p2i_aft_y) - (yt_aft_bl.*p2i_aft_y)))
+hold on
+% plot(x_af_bl.*p2i_af_x, )
+xlabel('X distance on grid (in)')
+ylabel('Y position on grid (in)')
+grid on
+title('Difference in Boundary Layer Y Position')
+
+
 
 
 %% Image processing Function
