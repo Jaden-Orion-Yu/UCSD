@@ -8,8 +8,7 @@ close all;
 mydata=readmatrix('DICe_solution_19.txt');
 
 strain_yy=mydata(:,12);
-xpos=mydata(:,2);
-ypos=mydata(:,3);
+
 
 figure(01)
 scatter(xpos,ypos,[],strain_yy,'filled')

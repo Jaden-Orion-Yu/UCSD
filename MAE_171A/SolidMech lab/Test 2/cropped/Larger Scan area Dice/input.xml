@@ -1,0 +1,48 @@
+<!-- Auto generated input file from DICe GUI -->
+<ParameterList>
+<Parameter name="output_folder" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\Larger Scan area Dice\results\" /> 
+<Parameter name="correlation_parameters_file" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\Larger Scan area Dice\params.xml" />
+<Parameter name="subset_file" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\Larger Scan area Dice\subset_defs.txt" />
+<Parameter name="subset_size" type="int" value="51" />
+<Parameter name="step_size" type="int" value="28" />
+<Parameter name="separate_output_file_for_each_subset" type="bool" value="false" />
+<Parameter name="create_separate_run_info_file" type="bool" value="true" />
+<Parameter name="image_folder" type="string" value="" />
+<Parameter name="reference_image" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5952.JPG" />
+<ParameterList name="deformed_images">
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5953.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5954.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5955.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5956.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5957.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5958.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5959.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5960.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5961.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5962.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5963.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5964.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5965.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5966.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5967.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5968.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5969.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5970.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5971.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5972.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5973.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5974.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5975.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5976.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5977.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5978.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5979.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5980.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5981.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5982.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5983.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5984.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5985.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\crop_DSC_5986.JPG" type="bool" value="true" />
+</ParameterList>
+</ParameterList>

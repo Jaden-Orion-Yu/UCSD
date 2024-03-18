@@ -1,0 +1,18 @@
+<!-- Auto generated input file from DICe GUI -->
+<ParameterList>
+<Parameter name="output_folder" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\results\" /> 
+<Parameter name="correlation_parameters_file" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\params.xml" />
+<Parameter name="subset_file" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Test 2\cropped\subset_defs.txt" />
+<Parameter name="subset_size" type="int" value="13" />
+<Parameter name="step_size" type="int" value="28" />
+<Parameter name="separate_output_file_for_each_subset" type="bool" value="false" />
+<Parameter name="create_separate_run_info_file" type="bool" value="true" />
+<Parameter name="image_folder" type="string" value="" />
+<Parameter name="reference_image" type="string" value="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Custom test 2\cropped\crop_DSC_5514.JPG" />
+<ParameterList name="deformed_images">
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Custom test 2\cropped\crop_DSC_5516.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Custom test 2\cropped\crop_DSC_5517.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Custom test 2\cropped\crop_DSC_5519.JPG" type="bool" value="true" />
+<Parameter name="C:\Users\jaden\OneDrive\Documents\GitHub\UCSD\MAE_171A\SolidMech lab\Custom test 2\cropped\crop_DSC_5520.JPG" type="bool" value="true" />
+</ParameterList>
+</ParameterList>
