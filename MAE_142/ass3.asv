@@ -1,0 +1,8 @@
+clear;clc;
+
+% finding highest value
+y_beta_array = 0:0.1:10;
+eigs = zeros()
+v0 = 750;
+
+for i = 1:legnth(y_beta_array)
