@@ -17,7 +17,8 @@ count_over_65 = sum(histogram_P1.Values(7:end));
 P1_mean = mean(nov_tem);
 prob_over_65 = 100*sum(nov_tem>=65)/length(nov_tem);
 std_dev = std(nov_tem);
-legend_input = append('Mean Temperature: ',num2str(P1_mean),newline,'Standard Deviation: ',num2str(std_dev),newline,'Probability of temperature being over 65: ',num2str(prob_over_65),'%');
+legend_input = append('Mean Temperature: ',num2str(P1_mean),newline,'Standard Deviation: ', ...
+    num2str(std_dev),newline,'Probability of temperature being over 65: ',num2str(prob_over_65),'%');
 legend(legend_input)
 
 
@@ -31,3 +32,5 @@ ylabel('mean temperature (deg_C)')
 month = {'J','F','M','A','M','J','J','A','S','O','N','D',};
 set(gca, 'XTickLabel',month)
 title('Annual Cycle of Temperature in San Diego')
+iqr_2 = iqr(tem)
+

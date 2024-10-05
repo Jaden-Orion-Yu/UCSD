@@ -15,18 +15,23 @@ box on; grid on;
 title('Histogram of Temperature in San Diego during November Months')
 count_over_65 = sum(histogram_P1.Values(7:end));
 P1_mean = mean(nov_tem);
-prob_over_65 = sum(nov_tem>=65)/length(nov_tem);
+prob_over_65 = 100*sum(nov_tem>=65)/length(nov_tem);
 std_dev = std(nov_tem);
-legend('Mean Temperature: ' + P1_mean,'Standard Deviation: ' + std_dev, 'Probability of temperature being over 65: '+ dub2str(prob_over_65))
+legend_input = append('Mean Temperature: ',num2str(P1_mean),newline,'Standard Deviation: ',num2str(std_dev),newline,'Probability of temperature being over 65: ',num2str(prob_over_65),'%');
+legend(legend_input)
 
 
 
 
 figure(2)
+subplot(2,1,1)
 boxplot(tem)
 grid on; box on;
 xlabel('month')
 ylabel('mean temperature (deg_C)')
 month = {'J','F','M','A','M','J','J','A','S','O','N','D',};
 set(gca, 'XTickLabel',month)
-title('Annual Cycle of Temperature in San Diego')
+subplot(2,1,2)
+iqr_2 = iqr(tem);
+title(append('Annual Cycle of Temperature in San Diego',newline,'IQR: ',num2str(iqr_2)))
+
