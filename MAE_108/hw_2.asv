@@ -1,0 +1,68 @@
+clear;clc;
+
+%importing data
+load('SD_temperature.dat')
+year = SD_temperature(:,1);
+tem = SD_temperature(:,2:13);
+jan_tem = SD_temperature(:,2);
+feb_tem = SD_temperature(:,3);
+mar_tem = SD_temperature(:,4);
+apr_tem = SD_temperature(:,5);
+may_tem = SD_temperature(:,6);
+jun_tem = SD_temperature(:,7);
+jul_tem = SD_temperature(:,8);
+aug_tem = SD_temperature(:,9);
+sep_tem = SD_temperature(:,10);
+oct_tem = SD_temperature(:,11);
+nov_tem = SD_temperature(:,12);
+dec_tem = SD_temperature(:,13);
+
+figure(1)
+bin_edges = fix(min(tem)):ceil(max(tem));
+T = mean(tem);
+histogram_P1 = histogram(tem,'BinWidth',1, 'Normalization','probability');
+xlabel('temperature')
+ylabel('probability')
+box on; grid on;
+title('Monthly Average Temperature in San Diego From 1852 to 2020')
+M = length(jan_tem);
+E_M = [(sum(jan_tem < 55))/M 
+    (sum(feb_tem < 55))/M,
+    (sum(mar_tem < 55))/M,
+    (sum(apr_tem < 55))/M,
+    (sum(may_tem < 55))/M,
+    (sum(jun_tem < 55))/M,
+    (sum(jul_tem < 55))/M,
+    (sum(aug_tem < 55))/M,
+    (sum(sep_tem < 55))/M,
+    (sum(oct_tem < 55))/M,
+    (sum(nov_tem < 55))/M,
+    (sum(dec_tem < 55))/M];
+
+figure(2)
+bar(E_M)
+title('Probability of Col')
+
+
+
+%count_over_65 = sum(histogram_P1.Values(7:end));
+%P1_mean = mean(nov_tem);
+%prob_over_65 = 100*sum(nov_tem>=65)/length(nov_tem);
+%std_dev = std(nov_tem);
+%legend_input = append('Mean Temperature: ',num2str(P1_mean),newline,'Standard Deviation: ', ...
+%    num2str(std_dev),newline,'Probability of temperature being over 65: ',num2str(prob_over_65),'%');
+%legend(legend_input)
+
+
+
+% %
+% figure(2)
+% boxplot(tem)
+% grid on; box on;
+% xlabel('month')
+% ylabel('mean temperature (deg_C)')
+% month = {'J','F','M','A','M','J','J','A','S','O','N','D',};
+% set(gca, 'XTickLabel',month)
+% title('Annual Cycle of Temperature in San Diego')
+% iqr_2 = iqr(tem)
+% %
