@@ -4,11 +4,11 @@ clear;clc;
 
 %using newtonian method listed in the notes on oct 15th
 
-Mt = 5.3454975;
-E = Mt;
+Mt = 2.429771612;
+E1 = Mt;
 e = 0.5;
 %check = ((E-e*sin(E)) - Mt) >= 0.00000000001;
-Ek = E;
+Ek = E1;
 count = 0;
 %while check
 for c = 1:100
@@ -20,35 +20,53 @@ end
 
 %% problem 2
 
-M_space = linspace(0,2*pi);
+M_space = linspace(0,2*pi,100);
 e1 = 0.1;
 e2 = 0.5;
 
-for i = 1:lengt
-ecctrue1 = ecc2ecctrueanom(e1,M_space);
-ecctrue2 = ecc2ecctrueanom(e2, M_space);
+
+for i = 1:length(M_space)
+    Tecctrue1 = ecc2ecctrueanom(e1,M_space(i));
+    Tecctrue2 = ecc2ecctrueanom(e2,M_space(i));
+    ecc1(i) = Tecctrue1(1);
+    true1(i) = Tecctrue1(2);
+    ecc2(i) = Tecctrue2(1);
+    true2(i) = Tecctrue2(2);
+end
 
 figure(1)
-plot(ecctrue1(1), M_space, 'r',ecctrue1(2),M_space,'b')
+plot(ecc1, M_space, 'r*',true1,M_space,'bo')
 xlabel('Mean Anomlay (rads)')
 ylabel('Eccentric and True anomaly (rads)')
 legend('Eccentric anomlay','True anomaly')
 grid on;
 title('Eccentric and True anomaly for e = 0.1 and 0<=M<=2Pi')
 figure(2)
-plot(ecctrue2(1), M_space, 'r',ecctrue2(2),M_space,'b')
+plot(ecc2, M_space, 'r*',true2,M_space,'bo')
 xlabel('Mean Anomlay (rads)')
 ylabel('Eccentric and True anomaly (rads)')
 legend('Eccentric anomlay','True anomaly')
 title('Eccentric and True anomaly for e = 0.5 and 0<=M<=2Pi')
 grid on;
-function [E,Nu] = ecc2ecctrueanom(e,M) 
-     Ek = M;
-     for c = 1:100
-        Ek_plus = Ek - ((Ek - e.*sin(Ek) - M)/(1-e.*cos(Ek)));
-        Ek = Ek_plus;
+
+%% functions
+
+function out = ecc2ecctrueanom(e,M) 
+     E = M;
+     acc = 1e-8;  
+     diff = 1;   
+     while abs(diff) > tol
+        diff = E - e*sin(E) - M;
+        E = E - delta / (1 - e*cos(E));  
      end
-     E = Ek;
-     Nu = 2.*atan(sqrt((1+e)./1-e).*tan(E./2));
+     % for c = 1:1000
+     %    Ek_plus = Ek - ((Ek - e*sin(Ek) - M)/(1- e*sin(Ek)));
+     %    Ek = Ek_plus;
+     % end
+     % E = Ek;
+     %Nu = 2.*atan(sqrt((1+e)./(1-e)).*tan(E./2));
+     %Nu = 2*atan2(sqrt(1+e)*tan(E/2), sqrt(1-e));
+     Nu = 2 * atan2(sqrt(1+e)*sin(E/2), sqrt(1-e)*cos(E/2));
+     out = [E,Nu];
 end
 

@@ -4,16 +4,14 @@ clear;clc;
 
 %using newtonian method listed in the notes on oct 15th
 
-Mt = 5.3454975;
-E = Mt;
+Mt = 2.429771612;
+E1 = Mt;
 e = 0.5;
-%check = ((E-e*sin(E)) - Mt) >= 0.00000000001;
-Ek = E;
+Ek = E1;
 count = 0;
-%while check
 for c = 1:100
     Ek_plus = Ek - ((Ek - e*sin(Ek) - Mt)/(1-e*cos(Ek)));
-    %check = ((Ek_plus-e*sin(Ek_plus)) - Mt) >= 0.00000000001;
+
     Ek = Ek_plus;
     count = count +1;
 end
@@ -52,13 +50,14 @@ grid on;
 %% functions
 
 function out = ecc2ecctrueanom(e,M) 
-     Ek = M;
-     for c = 1:100
-        Ek_plus = Ek - ((Ek - e.*sin(Ek) - M)/(1-e.*cos(Ek)));
-        Ek = Ek_plus;
+     E = M;
+     acc = 1e-9;  
+     diff = 1;   
+     while abs(diff) > acc
+        diff = E-e*sin(E)-M;
+        E = E-diff/(1-e*cos(E));  
      end
-     E = Ek;
-     Nu = 2.*atan(sqrt((1+e)./1-e).*tan(E./2));
+     Nu = 2 * atan2(sqrt(1+e)*sin(E/2), sqrt(1-e)*cos(E/2));
      out = [E,Nu];
 end
 
