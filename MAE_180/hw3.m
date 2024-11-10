@@ -27,8 +27,13 @@ R_eci2 = peri2eci(R_Peri2,w2,i2,omega2)
 n = sqrt(42828/(6000^3));
 M = n*7200;
 e = 0.3;
+V_peri3 = [0.101888;-1.95864;0];
+R_peri3 = [-7792.626;-283.678;0];
 
-ans3 = ecc2ecctrueanom(e,M)
+ans3 = ecc2ecctrueanom(e,M);
+
+V_mci3 =peri2eci(V_peri3, (pi/4),(pi/6),(pi/3))
+R_mci3 =peri2eci(R_peri3, (pi/4),(pi/6),(pi/3)) 
 %% functions
 function R  = eci2peri(r,w,i,omega)
     Gomega = [cos(omega), sin(omega), 0;-sin(omega), cos(omega), 0; 0,0,1]; 
