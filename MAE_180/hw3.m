@@ -21,6 +21,14 @@ omega2 = (-pi)/6;
 R_Peri2 = [29700;0;29700];
 R_eci2 = peri2eci(R_Peri2,w2,i2,omega2)
 
+
+%% Problem 3
+
+n = sqrt(42828/(6000^3));
+M = n*7200;
+e = 0.3;
+
+ans3 = ecc2ecctrueanom(e,M)
 %% functions
 function R  = eci2peri(r,w,i,omega)
     Gomega = [cos(omega), sin(omega), 0;-sin(omega), cos(omega), 0; 0,0,1]; 
@@ -34,4 +42,16 @@ function R  = peri2eci(r,w,i,omega)
     Gi = [1,0,0;0,cos(i), sin(i);0,-sin(i), cos(i)];
     Gw = [cos(w), sin(w), 0;-sin(w), cos(w), 0; 0,0,1];
     R = (Gomega')*(Gi')*(Gw')*r;
+end
+
+function out = ecc2ecctrueanom(e,M) 
+     E = M;
+     acc = 1e-9;  
+     diff = 1;   
+     while abs(diff) > acc
+        diff = E-e*sin(E)-M;
+        E = E-diff/(1-e*cos(E));  
+     end
+     Nu = 2 * atan2(sqrt(1+e)*sin(E/2), sqrt(1-e)*cos(E/2));
+     out = [E,Nu];
 end
