@@ -15,11 +15,10 @@ step2 = Gi*step1
 step3 = Gw*step2
 
 %% problem 2
-w2 = pi/4;
-i2 = pi/3;
-omega2 = (-pi)/6;
+w2 = 
+i2 = 
+omega2 = ()
 R_Peri2 = [29700;0;29700];
-R_eci2 = peri2eci(R_Peri2,w2,i2,omega2)
 
 %% functions
 function R  = eci2peri(r,w,i,omega)
