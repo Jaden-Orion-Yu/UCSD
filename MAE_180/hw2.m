@@ -11,7 +11,6 @@ Ek = E1;
 count = 0;
 for c = 1:100
     Ek_plus = Ek - ((Ek - e*sin(Ek) - Mt)/(1-e*cos(Ek)));
-
     Ek = Ek_plus;
     count = count +1;
 end
