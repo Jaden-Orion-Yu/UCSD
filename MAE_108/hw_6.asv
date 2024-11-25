@@ -1,0 +1,15 @@
+clear;clc;
+
+%% problem 1
+p1 = gamcdf(30, 5, 10);
+p1 = 1 - p1;
+
+%% problem 2
+p2a = gaminv(.95,16,(1/.4));
+
+%% problem 3
+
+p3 = betacdf(0.8,2,3, "upper");
+
+%% problem 4
+p4 = betacdf(0.8)
