@@ -19,8 +19,7 @@ p4d = norminv((1-0.0051253682), 60,17.3205);
 
 %% P5
 
-p5b = 1-normcdf(log(30),3.1858,0.88619);
-p5c = normcdf(log(1),1.303,.89866);
+p5a = 1-normcdf(log(30),3.1858,);
 
 %% problem 6
 
